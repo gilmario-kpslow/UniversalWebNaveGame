@@ -10,9 +10,7 @@ function Teclado(elemento) {
     this.pressionadas = [];
     this.disparadas = [];
     this.funcoesDisparo = [];
-
     var teclado = this;
-
     elemento.addEventListener("keydown", function (evento) {
         var tecla = evento.keyCode;
         teclado.pressionadas[tecla] = true;
@@ -24,7 +22,6 @@ function Teclado(elemento) {
     elemento.addEventListener("keyup", function (evento) {
         teclado.pressionadas[evento.keyCode] = false;
         teclado.disparadas[evento.keyCode] = false;
-
     });
 }
 

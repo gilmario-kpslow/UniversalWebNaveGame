@@ -25,5 +25,4 @@ Painel.prototype = {
         }
         this.contexto.restore();
     }
-
 };

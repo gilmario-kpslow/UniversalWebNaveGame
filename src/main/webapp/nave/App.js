@@ -2,9 +2,8 @@ var canvas = document.getElementById("canvas");
 var contexto = canvas.getContext("2d");
 var imagens;
 var animacao;
-var teclado;
+var controle;
 var colisor;
-var nave;
 var criadorInimigos;
 var totalImagens = 0;
 var carregadas = 0;
@@ -16,6 +15,10 @@ var SOM_TIRO;
 var SOM_EXPLOSAO;
 var SOM_JOGO;
 var painel;
+var controle;
+var conexao;
+
+carregarMidias();
 
 function carregarMidias() {
     imagens = {
@@ -40,10 +43,10 @@ function carregarMidias() {
         tiro: "tiro.mp3"
     };
     SOM_TIRO = criaSon(sons.tiro);
+    SOM_TIRO.volume = 0.2;
     SOM_EXPLOSAO = criaSon(sons.esplosao);
+    SOM_EXPLOSAO.volume = 0.4;
     SOM_JOGO = criaSon(sons.acao);
-
-
 }
 
 function criaSon(res) {
@@ -55,18 +58,17 @@ function criaSon(res) {
 }
 
 function carregando() {
+    carregadas++;
     contexto.save();
     contexto.drawImage(imagens.espaco, 0, 0, canvas.width, canvas.height);
     contexto.fillStyle = "white";
     contexto.font = "50pt sans-serif";
-    contexto.fillText("Carregando", 100, 200);
+    contexto.fillText("Carregando", 50, 200);
     var tamanhoTotal = 300;
     var tamanho = carregadas / totalImagens * tamanhoTotal;
-    contexto.fillStyle = "red";
+    contexto.fillStyle = "gold";
     contexto.fillRect(100, 250, tamanho, 50);
     contexto.restore();
-
-    carregadas++;
     if (carregadas == totalImagens) {
         iniciarObjetos();
         mostraLinkJogar();
@@ -74,13 +76,14 @@ function carregando() {
 }
 
 function iniciarObjetos() {
+    conexao = new Conexao(document.location.host + "\servidor", "tela");
     animacao = new Animacao(contexto);
-    teclado = new Teclado(document);
+    controle = new Controle();
     colisor = new Colisor();
     espaco = new Fundo(contexto, imagens.espaco);
     estrelas = new Fundo(contexto, imagens.estrelas);
     nuvens = new Fundo(contexto, imagens.nuvens);
-    nave = new Nave(contexto, teclado, imagens.nave, imagens.esplosao);
+    nave = new Nave(contexto, controle, imagens.nave, imagens.esplosao, SOM_TIRO);
     painel = new Painel(contexto, nave);
     animacao.novoSprite(espaco);
     animacao.novoSprite(estrelas);
@@ -99,7 +102,6 @@ function configuracoesIniciais() {
     nave.posicionar();
     nave.velocidade = 200;
     nave.acabaramVidas = function () {
-
         gameOver();
     };
     colisor.aoColidir = function (o1, o2) {
@@ -108,8 +110,18 @@ function configuracoesIniciais() {
         }
     };
     criacaoInimigos();
+    conexao.onConect = function () {
+        //mostraControle();
+    };
+    conexao.onMessage = function (data) {
+        processarComandos(data);
+    };
 }
 
+function processarComando(data) {
+    //var comando = JSON.parse(data);
+    alert(data);
+}
 function pausarJogo() {
     if (animacao.ligado) {
         animacao.desligar();
@@ -118,7 +130,7 @@ function pausarJogo() {
         contexto.fillStyle = "white";
         contexto.strokeStyle = "black";
         contexto.font = "50px sans-serif";
-        contexto.fillText("Pausado", 160, 200);
+        contexto.fillText("Pausado", 140, 200);
         contexto.restore();
         SOM_JOGO.pause();
     } else {
@@ -126,17 +138,16 @@ function pausarJogo() {
         criador.ultimoOvni = new Date().getTime();
         ativarTiro(true);
         SOM_JOGO.play();
-
     }
 }
 
 function ativarTiro(ativar) {
     if (ativar) {
-        teclado.disparou(ESPACO, function () {
+        controle.disparou(ACAO_01, function () {
             nave.atirar();
         });
     } else {
-        teclado.disparou(ESPACO, null);
+        controle.disparou(ACAO_01, null);
     }
 }
 
@@ -147,22 +158,22 @@ function criacaoInimigos() {
             var agora = new Date().getTime();
             var decorrido = agora - this.ultimoOvn;
             if (decorrido > 1000) {
-                this.novoOvni();
+                novoOvni();
                 this.ultimoOvn = agora;
             }
-        },
-        novoOvni: function () {
-            var ovni = new Ovni(contexto, imagens.ovni, imagens.esplosao);
-            ovni.velocidade = Math.floor((100 + Math.random() * (200 - 100 + 1)));
-            ovni.x = Math.floor(Math.random() * (canvas.width - imagens.ovni.width + 1));
-            ovni.y = -imagens.ovni.height;
-            animacao.novoSprite(ovni);
-            colisor.novoSprite(ovni);
-            return ovni;
         }
-
     };
     animacao.novoProcessamento(criador);
+}
+
+function novoOvni() {
+    var ovni = new Ovni(contexto, imagens.ovni, imagens.esplosao);
+    ovni.velocidade = Math.floor((500 + Math.random() * (1000 - 500 + 1)));
+    ovni.x = Math.floor(Math.random() * (canvas.width - imagens.ovni.width + 1));
+    ovni.y = -imagens.ovni.height;
+    animacao.novoSprite(ovni);
+    colisor.novoSprite(ovni);
+    return ovni;
 }
 
 function mostraLinkJogar() {
@@ -177,19 +188,17 @@ function musicaFundo() {
 function iniciarJogo() {
     criador.ultimoOvni = new Date().getTime();
     document.getElementById("link_jogar").style.display = 'none';
-    teclado.disparou(ENTER, function () {
+    controle.disparou(ACAO_02, function () {
         pausarJogo();
     });
     SOM_JOGO.play();
     animacao.ligar();
-    ativarTiro(true);
     painel.pontuacao = 0;
 }
 
 function gameOver() {
-    animacao.desligar();
     ativarTiro(false);
-    teclado.disparou(ENTER, null);
+    controle.disparou(ACAO_02, null);
     SOM_JOGO.pause();
     SOM_JOGO.currentTime = 0.0;
     contexto.drawImage(imagens.espaco, 0, 0, canvas.width, canvas.height);
@@ -200,11 +209,12 @@ function gameOver() {
     contexto.fillText("GAME OVER", 40, 200);
     contexto.restore();
     mostraLinkJogar();
-    nave.vidas = 5;
+    nave.vidas = 3;
     nave.posicionar();
     animacao.novoSprite(nave);
     colisor.novoSprite(nave);
     removerInimigos();
+    animacao.desligar();
 }
 
 function removerInimigos() {
@@ -214,6 +224,4 @@ function removerInimigos() {
         }
     }
 }
-
-carregarMidias();
 musicaFundo();

@@ -1,15 +1,14 @@
-function Tiro(contexto, nave, son) {
+function Tiro(contexto, nave, som) {
     this.contexto = contexto;
     this.nave = nave;
-    this.largura = 4;
-    this.altura = 20;
-    this.x = nave.x + 17;
-    this.y = nave.y;
-    this.velocidade = 200;
+    this.largura = 3;
+    this.altura = 10;
+    this.x = nave.x + 18;
+    this.y = nave.y - this.altura;
+    this.velocidade = 400;
     this.cor = "gold";
-    SOM_TIRO.volume = 0.2;
-    SOM_TIRO.play();
-
+    som.currentTime = 0.0;
+    som.play();
 }
 
 Tiro.prototype = {

@@ -19,8 +19,6 @@ Fundo.prototype = {
         if (this.posicaoEmenda > this.imagem.height) {
             this.posicaoEmenda = 0;
         }
-
     }
-
 };
 

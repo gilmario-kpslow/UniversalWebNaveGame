@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Game</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/stilo.css" rel="stylesheet"/>
+        <link href="css/controle.css" rel="stylesheet"/>
+    </head>
+    <body >
+        <div hidden>
+            Controle
+        </div>
+        <div id="login">
+            <span>Nome</span>
+            <input id="usuario" placeholder="Informe seu nome"/>
+            <button id="btnlogar" type="button">Logar</button>
+        </div>
+        <div id="controle" hidden="hidden">
+            <div id="div_superior">
+                <div class="esquerda">
+                    <img id="btn_l" src="img/controle/botao_l.svg"  alt=""/>
+                </div>
+                <div class="direita">
+                    <img  id="btn_r" src="img/controle/botao_r.svg"  alt=""/>
+                </div>
+            </div>
+            <div style="clear: both;"></div>
+            <div>
+                <div id="div_direcional" class="esquerda">
+                    <div class="esquerda">
+                        <img src="img/controle/branco.svg"  class="direcional" alt=""/>
+                    </div>
+                    <div class="esquerda">
+                        <img class="direcional" id="btn_direcao_subir" src="img/controle/botao_subir.svg" alt=""/>
+                    </div>
+                    <div class="esquerda">
+                        <img src="img/controle/branco.svg" class="direcional" alt=""/>
+                    </div>
+                    <div class="esquerda">
+                        <img id="btn_direcao_esquerda" class="direcional" src="img/controle/botao_esquerda.svg"  alt=""/>
+                    </div>
+                    <div class="esquerda">
+                        <img src="img/controle/branco.svg" class="direcional" alt=""/>
+                    </div>
+                    <div id="btn_d" class="esquerda">
+                        <img id="btn_direcao_direita" class="direcional" src="img/controle/botao_direita.svg" alt=""/>
+                    </div>
+                    <div class="esquerda">
+                        <img src="img/controle/branco.svg" class="direcional" alt=""/>
+                    </div>
+                    <div  class="esquerda" style="border: 1px solid red;" >
+                        <img id="btn_direcao_descer"  class="direcional" src="img/controle/botao_descer.svg" alt=""/>
+                    </div>
+                    <div class="esquerda">
+                        <img src="img/controle/branco.svg" class="direcional" alt=""/>
+                    </div>
+                </div>
+                <div id="div_central" class="esquerda">
+                    <div class="esquerda">
+                        <img src="img/controle/botao_start.svg" id="btn_start" alt=""/>
+                    </div>
+                    <div  class="direita" style="float: right">
+                        <img id="btn_select" src="img/controle/botao_select.svg" alt=""/>
+                    </div>
+                </div>
+                <div id="div_acao" class="esquerda">
+                    <div class="esquerda">
+                        <img src="img/controle/botao_a.svg" id="btn_acao_a" alt=""/>
+                    </div>
+                    <div id="btn_action_b" class="direita">
+                        <img src="img/controle/botao_b.svg" id="btn_acao_b" alt=""/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="js/Controle.js"></script>
+        <script src="js/Conexao.js"></script>
+        <script src="js/StyleControle.js"></script>
+        <script src="ControlarNave.js"></script>
+    </body>
+</html>

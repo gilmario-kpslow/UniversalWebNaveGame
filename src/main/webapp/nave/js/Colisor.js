@@ -24,13 +24,11 @@ Colisor.prototype = {
                 if (!testados[id2]) {
                     testados[id2] = [];
                 }
-
                 if (!(testados[id1].indexOf(id2) >= 0 || testados[id2].indexOf(id1) >= 0)) {
                     this.testarColisoes(this.sprites[i], this.sprites[j]);
                     testados[id1].push(id2);
                     testados[id2].push(id1);
                 }
-
             }
         }
         this.processarExclusoes();
@@ -38,8 +36,11 @@ Colisor.prototype = {
     testarColisoes: function (spriteA, spriteB) {
         var rest1 = spriteA.retangulosColisao();
         var rest2 = spriteB.retangulosColisao();
-        colisoes:
-                for (var i in rest1) {
+        var colidiu = false;
+        for (var i in rest1) {
+            if (colidiu) {
+                break;
+            }
             for (var j in rest2) {
                 if (this.retangulosColidem(rest1[i], rest2[j])) {
                     spriteA.colidiuCom(spriteB);
@@ -47,7 +48,8 @@ Colisor.prototype = {
                     if (this.aoColidir) {
                         this.aoColidir(spriteA, spriteB);
                     }
-                    break colisoes;
+                    colidiu = true;
+                    break;
                 }
             }
         }

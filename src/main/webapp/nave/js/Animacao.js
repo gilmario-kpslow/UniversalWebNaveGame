@@ -26,6 +26,7 @@ Animacao.prototype = {
         if (!this.ligado) {
             return;
         }
+        this.limparTela();
         var agora = new Date().getTime();
         if (this.ultimoCiclo == 0) {
             this.ultimoCiclo = agora;

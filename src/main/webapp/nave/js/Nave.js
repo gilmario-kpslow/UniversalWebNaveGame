@@ -1,7 +1,7 @@
-function Nave(contexto, teclado, imagem, imgExplosao) {
+function Nave(contexto, controle, imagem, imgExplosao, somTiro) {
     this.contexto = contexto;
     this.imagem = imagem;
-    this.teclado = teclado;
+    this.controle = controle;
     this.x = 0;
     this.y = 0;
     this.velocidade = 0;
@@ -11,13 +11,14 @@ function Nave(contexto, teclado, imagem, imgExplosao) {
     this.spritesheet = new Spritsheet(contexto, imagem, 3, 2);
     this.spritesheet.linha = 0;
     this.spritesheet.intervalo = 100;
+    this.somTiro = somTiro;
 }
 
 Nave.prototype = {
     desenhar: function () {
-        if (this.teclado.pressionada(SETA_ESQUERDA)) {
+        if (this.controle.pressionada(COMANDO_ESQUERDA)) {
             this.spritesheet.linha = 1;
-        } else if (this.teclado.pressionada(SETA_DIREITA)) {
+        } else if (this.controle.pressionada(COMANDO_DIREITA)) {
             this.spritesheet.linha = 2;
         } else {
             this.spritesheet.linha = 0;
@@ -27,21 +28,21 @@ Nave.prototype = {
     },
     atualizar: function () {
         var incremento = this.velocidade * this.animacao.decorrido / 1000;
-        if (this.teclado.pressionada(SETA_ESQUERDA) && this.x > 0) {
+        if (this.controle.pressionada(COMANDO_ESQUERDA) && this.x > 0) {
             this.x -= incremento;
         }
-        if (this.teclado.pressionada(SETA_DIREITA) && this.x < this.contexto.canvas.width - 36) {
+        if (this.controle.pressionada(COMANDO_DIREITA) && this.x < this.contexto.canvas.width - 36) {
             this.x += incremento;
         }
-        if (this.teclado.pressionada(SETA_ACIMA) && this.y > 0) {
+        if (this.controle.pressionada(COMANDO_SUBIR) && this.y > 0) {
             this.y -= incremento;
         }
-        if (this.teclado.pressionada(SETA_ABAIXO) && this.y < this.contexto.canvas.height - 48) {
+        if (this.controle.pressionada(COMANDO_DECER) && this.y < this.contexto.canvas.height - 48) {
             this.y += incremento;
         }
     },
     atirar: function () {
-        var t = new Tiro(this.contexto, this);
+        var t = new Tiro(this.contexto, this, this.somTiro);
         this.animacao.novoSprite(t);
         this.colisor.novoSprite(t);
     },
@@ -53,17 +54,18 @@ Nave.prototype = {
 //            this.contexto.strokeRect(r[i].x, r[i].y, r[i].largura, r[i].altura);
         //}
         return r;
-
     },
     colidiuCom: function (outro) {
         if (outro instanceof Ovni) {
             this.animacao.excluirSprite(outro);
             this.colisor.excluirSprite(outro);
+            this.animacao.excluirSprite(this);
+            this.colisor.excluirSprite(this);
             var exp2 = new Explosao(this.contexto, this.imgExplosao, outro.x, outro.y);
-            this.animacao.novoSprite(exp2);
-            outro.y = this.contexto.canvas.height;
-            var nave = this;
             var exp1 = new Explosao(this.contexto, this.imgExplosao, this.x, this.y);
+            this.animacao.novoSprite(exp2);
+            this.animacao.novoSprite(exp1);
+            var nave = this;
             exp1.fimDaExplosao = function () {
                 nave.vidas--;
                 if (nave.vidas < 0) {
@@ -74,14 +76,12 @@ Nave.prototype = {
                     nave.colisor.novoSprite(nave);
                     nave.animacao.novoSprite(nave);
                     nave.posicionar();
-                    nave.velocidade = 200;
                 }
             };
-            this.animacao.novoSprite(exp1);
         }
     },
     posicionar: function () {
-        this.x = this.contexto.canvas.width / 2 - 18;
+        this.x = (this.contexto.canvas.width / 2) - 18;
         this.y = this.contexto.canvas.height - 48;
     }
 
