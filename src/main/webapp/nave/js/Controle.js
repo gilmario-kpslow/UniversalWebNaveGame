@@ -16,7 +16,11 @@ function Controle() {
 
 Controle.prototype = {
     pressionar: function (COMANDO) {
-        this.pressionadas[COMANDO] = true;
+        if (this.pressionadas[COMANDO]) {
+            this.pressionadas[COMANDO] = false;
+        } else {
+            this.pressionadas[COMANDO] = true;
+        }
     },
     disparar: function (COMANDO) {
         this.funcoesDisparo[COMANDO]();

@@ -1,6 +1,6 @@
 var controle;
 var conexao;
-var host = "localhos:8080" + "/servidor/websocket";
+var host = document.location.host + "/servidor/websocket";
 var player;
 
 function conectar() {

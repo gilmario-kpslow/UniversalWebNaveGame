@@ -71,21 +71,24 @@ function adicionarComandos() {
     adicionaAcoes(btn_direcao_descer, COMANDO_DECER);
     adicionaAcoes(btn_direcao_esquerda, COMANDO_ESQUERDA);
     adicionaAcoes(btn_direcao_direita, COMANDO_DIREITA);
-    adicionaAcoes(btn_acao_a, ACAO_01);
-    adicionaAcoes(btn_acao_b, ACAO_02);
-    adicionaAcoes(btn_l, BOTAO_L);
-    adicionaAcoes(btn_r, BOTAO_R);
-    adicionaAcoes(btn_select, SELECT);
-    adicionaAcoes(btn_start, START);
+    adicionaAcoes(btn_acao_a, ACAO_01, true);
+    adicionaAcoes(btn_acao_b, ACAO_02, true);
+    adicionaAcoes(btn_l, BOTAO_L, true);
+    adicionaAcoes(btn_r, BOTAO_R, true);
+    adicionaAcoes(btn_select, SELECT, true);
+    adicionaAcoes(btn_start, START, true);
 }
 
-function adicionaAcoes(botao, COMANDO) {
+function adicionaAcoes(botao, COMANDO, disparada) {
+    var comando = new Comando(COMANDO, disparada);
     botao.addEventListener("touchstart", function () {
-        conexao.enviar(COMANDO);
+        conexao.enviar(JSON.stringify(comando));
     });
-    botao.addEventListener("touchend", function () {
-        conexao.enviar(COMANDO);
-    });
+    if (!disparada) {
+        botao.addEventListener("touchend", function () {
+            conexao.enviar(JSON.stringify(comando));
+        });
+    }
 }
 
 localizarImagens();

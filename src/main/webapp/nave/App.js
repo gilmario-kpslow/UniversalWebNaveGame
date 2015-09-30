@@ -2,7 +2,6 @@ var canvas = document.getElementById("canvas");
 var contexto = canvas.getContext("2d");
 var imagens;
 var animacao;
-var controle;
 var colisor;
 var criadorInimigos;
 var totalImagens = 0;
@@ -17,6 +16,7 @@ var SOM_JOGO;
 var painel;
 var controle;
 var conexao;
+var conectados = 0;
 
 carregarMidias();
 
@@ -76,7 +76,7 @@ function carregando() {
 }
 
 function iniciarObjetos() {
-    conexao = new Conexao(document.location.host + "\servidor", "tela");
+    conexao = new Conexao(document.location.host + "/servidor/websocket", "tela");
     animacao = new Animacao(contexto);
     controle = new Controle();
     colisor = new Colisor();
@@ -111,16 +111,35 @@ function configuracoesIniciais() {
     };
     criacaoInimigos();
     conexao.onConect = function () {
-        //mostraControle();
+
     };
     conexao.onMessage = function (data) {
-        processarComandos(data);
+        processarComando(data);
     };
+    conexao.conectar();
+    controle.disparou(SELECT, function () {
+        pausarJogo();
+    });
+    controle.disparou(SELECT, function () {
+        pausarJogo();
+    });
+    controle.disparou(START, function () {
+        iniciarJogo();
+    });
 }
 
 function processarComando(data) {
-    //var comando = JSON.parse(data);
-    alert(data);
+    try {
+        var comando = JSON.parse(data);
+        if (comando.disparar) {
+            controle.disparar(comando.comando);
+        } else {
+            controle.pressionar(comando.comando);
+        }
+        console.log(data);
+    } catch (e) {
+        console.log(e);
+    }
 }
 function pausarJogo() {
     if (animacao.ligado) {
@@ -186,14 +205,12 @@ function musicaFundo() {
 }
 
 function iniciarJogo() {
-    criador.ultimoOvni = new Date().getTime();
     document.getElementById("link_jogar").style.display = 'none';
-    controle.disparou(ACAO_02, function () {
-        pausarJogo();
-    });
+    criador.ultimoOvni = new Date().getTime();
     SOM_JOGO.play();
     animacao.ligar();
     painel.pontuacao = 0;
+    ativarTiro(true);
 }
 
 function gameOver() {
