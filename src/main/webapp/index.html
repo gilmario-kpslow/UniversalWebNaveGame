@@ -7,5 +7,24 @@
         <title>Welcome to OpenShift</title>
     <body>
         <a href="nave"> Ir para o jogo de nave</a>
+        <input id="testando" size="100"/>
+        <button type="button" onclick="testar()">Testar</button>
+        <script>
+            var soket;
+            function testar() {
+                var host = "ws://" + document.getElementById("testando").value;
+                socket = new WebSocket(host);
+                socket.onmessage = (function (evt) {
+                    console.log(evt.data);
+                });
+
+                socket.onerror = (function (evt) {
+                    console.log("Erro desconhecido");
+                });
+                socket.onopen = (function () {
+                    console.log("Conexao Aberta");
+                });
+            }
+        </script>
     </body>
 </html>
