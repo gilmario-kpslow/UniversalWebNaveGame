@@ -1,4 +1,4 @@
-function Bomber(contexto, controle, imagem, imgExplosao, somTiro) {
+function Bomber(contexto, controle, imagem) {
     this.contexto = contexto;
     this.imagem = imagem;
     this.controle = controle;
@@ -7,11 +7,11 @@ function Bomber(contexto, controle, imagem, imgExplosao, somTiro) {
     this.velocidade = 0;
     this.vidas = 3;
     this.acabaramVidas = null;
-    this.imgExplosao = imgExplosao;
-    this.spritesheet = new Spritsheet(contexto, imagem, 3, 2);
+//    this.imgExplosao = imgExplosao;
+    this.spritesheet = new Spritsheet(contexto, imagem, 12, 15);
     this.spritesheet.linha = 0;
-    this.spritesheet.intervalo = 100;
-    this.somTiro = somTiro;
+    this.spritesheet.intervalo = 1000;
+//    this.somTiro = somTiro;
 }
 
 Bomber.prototype = {
@@ -41,11 +41,11 @@ Bomber.prototype = {
             this.y += incremento;
         }
     },
-    atirar: function () {
-        var t = new Tiro(this.contexto, this, this.somTiro);
-        this.animacao.novoSprite(t);
-        this.colisor.novoSprite(t);
-    },
+//    atirar: function () {
+//        var t = new Tiro(this.contexto, this, this.somTiro);
+//        this.animacao.novoSprite(t);
+//        this.colisor.novoSprite(t);
+//    },
     retangulosColisao: function () {
         var r = [{x: this.x + 2, y: this.y + 19, largura: 9, altura: 13},
             {x: this.x + 13, y: this.y + 3, largura: 10, altura: 33},
