@@ -1,0 +1,8 @@
+
+Criar Tela inicial com menu;
+Colocar Um Fundo Animado;
+E uma musica
+O menu deve se mover conforme as teclas;
+Na tela inicial aguardar dois jogadores se conectar;
+Se outras pessoas se conectarem exibir a opção de Telespctador;
+

@@ -16,7 +16,7 @@ var div_superior;
 var btnlogar;
 document.oncontextmenu = function () {
     return false;
-}
+};
 function localizarImagens() {
     tela = window.screen;
     btn_l = document.getElementById("btn_l");

@@ -76,7 +76,7 @@ function carregando() {
 }
 
 function iniciarObjetos() {
-    conexao = new Conexao(document.location.host + ":8000/websocket", "tela");
+    conexao = new Conexao(document.location.host + "/servidor/websocket", "tela");
     animacao = new Animacao(contexto);
     controle = new Controle();
     colisor = new Colisor();

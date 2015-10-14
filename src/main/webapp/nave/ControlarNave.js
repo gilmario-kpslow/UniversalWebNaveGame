@@ -1,6 +1,6 @@
 var controle;
 var conexao;
-var host = document.location.host + ":8000/websocket";
+var host = document.location.host + "/servidor/websocket";
 var player;
 
 function conectar() {
