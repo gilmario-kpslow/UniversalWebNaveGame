@@ -10,23 +10,34 @@ import javax.json.JsonObjectBuilder;
  */
 public class Posicao implements IsJsonObject {
 
-    private final Integer x;
-    private final Integer y;
+    private Peca peca;
+    private int x;
+    private int y;
+    private String cor;
 
-    public Posicao(Integer x, Integer y) {
+    public Posicao(String cor, int x, int y) {
         this.x = x;
         this.y = y;
+        this.cor = cor;
+
+    }
+
+    public void posicionaPeca(Peca p) {
+        this.peca = p;
     }
 
     @Override
     public JsonObject getJsonObject() {
         JsonObjectBuilder builder = Json.createObjectBuilder();
-        return builder.add("x", x).add("y", y).build();
+        if (peca != null) {
+            builder.add("peca", this.peca.getJsonObject());
+        }
+        return builder.add("cor", cor).add("x", x).add("y", y).build();
     }
 
     @Override
     public void restoreFromJson(JsonObject object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 
 }

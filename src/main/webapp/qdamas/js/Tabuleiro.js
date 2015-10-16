@@ -1,41 +1,59 @@
-function Tabuleiro(contexto, tela) {
+function Tabuleiro(contexto, game) {
     this.context = contexto;
-    this.tela = tela;
+    this.tela;
     this.tamanho = 50;
-    this.pecas = [];
-    this.casasPretas = [];
-    this.jogador01;
-    this.jogador02;
-    this.casaSelecionada01;
-    this.casaSelecionada02;
+//    this.pecas = [];
+    this.posicoes;
+//    this.casasPretas = [];
+//    this.casaSelecionada01;
+//    this.casaSelecionada02;
+    this.game = game;
 }
 
 Tabuleiro.prototype = {
+    restaurar: function (tabuleiro) {
+        this.tela = new Tela(tabuleiro.tela.altura, tabuleiro.tela.largura);
+        this.tamanho = tabuleiro.tamanho;
+        this.restaurarPosicoes(tabuleiro.posicoes);
+
+    },
+    restarurarPosicoes: function (posicoes) {
+        this.posicoes = [];
+        for (var i = 0; i < posicoes.length; i++) {
+            var p = posicoes[i];
+            var pos = new Posicao(p.cor, p.x, p.y, p.tamanho);
+            pos.restaurar(p);
+            pos.tabuleiro = this;
+            this.posicoes.push(pos);
+
+        }
+    }
+    ,
     atualizar: function () {
 
     },
     desenhar: function () {
         // Desenhar as bordas com letras acima e numeros nas laterais
-        var medianaW = (this.tela.largura - (this.tamanho * 8)) / 2;
-        var medianaH = (this.tela.altura - (this.tamanho * 8)) / 2;
-        this.context.save();
-        this.context.strokeRect(medianaW, medianaH, this.tamanho * 8, this.tamanho * 8);
-        for (var i = 0; i < 8; i++) {
-            for (var j = 0; j < 8; j++) {
-                if ((j + i) % 2 === 1) {
-                    this.context.fillStyle = "#333";
-                } else {
-                    this.context.fillStyle = "#FFF";
-                    var posicao = new Posicao((j * this.tamanho) + (this.tela.largura - (this.tamanho * 8)) / 2, (i * this.tamanho) + (this.tela.altura - (this.tamanho * 8)) / 2, this.context);
-                    if (this.casasPretas.length <= 31) {
-                        this.casasPretas.push(posicao);
-                        this.animacao.novoSprite(posicao);
-                    }
-                }
-                this.context.fillRect((j * this.tamanho) + (this.tela.largura - (this.tamanho * 8)) / 2, (i * this.tamanho) + (this.tela.altura - (this.tamanho * 8)) / 2, this.tamanho, this.tamanho);
-            }
-        }
-        this.context.restore();
+//        var medianaW = (this.tela.largura - (this.tamanho * 8)) / 2;
+//        var medianaH = (this.tela.altura - (this.tamanho * 8)) / 2;
+//        this.context.save();
+//        this.context.strokeRect(medianaW, medianaH, this.tamanho * 8, this.tamanho * 8);
+//        for (var i = 0; i < 8; i++) {
+//            for (var j = 0; j < 8; j++) {
+////                if ((j + i) % 2 === 1) {
+////                    this.context.fillStyle = "#333";
+////                } else {
+////                    this.context.fillStyle = "#FFF";
+////                    var posicao = new Posicao((j * this.tamanho) + (this.tela.largura - (this.tamanho * 8)) / 2, (i * this.tamanho) + (this.tela.altura - (this.tamanho * 8)) / 2, this.context);
+////                    if (this.casasPretas.length <= 31) {
+////                        this.casasPretas.push(posicao);
+////                        this.animacao.novoSprite(posicao);
+////                    }
+////                }
+////                this.context.fillRect((j * this.tamanho) + (this.tela.largura - (this.tamanho * 8)) / 2, (i * this.tamanho) + (this.tela.altura - (this.tamanho * 8)) / 2, this.tamanho, this.tamanho);
+//            }
+//        }
+//        this.context.restore();
         this.desenhaCantos();
 
     },

@@ -10,26 +10,24 @@ import javax.json.JsonObjectBuilder;
  */
 public class Peca implements IsJsonObject {
 
-    private Integer imagem;
-    private Posicao posicao;
+    private Jogador jogador;
 
     public Peca() {
     }
 
-    public Peca(Integer imagem, Posicao posicao) {
-        this.imagem = imagem;
-        this.posicao = posicao;
+    public Peca(Jogador jogador) {
+        this.jogador = jogador;
     }
 
     @Override
     public JsonObject getJsonObject() {
         JsonObjectBuilder buider = Json.createObjectBuilder();
-        return buider.add("imagem", imagem).add("posicao", posicao.getJsonObject()).build();
+        return buider.add("jogador", jogador.getJsonObject()).build();
     }
 
     @Override
     public void restoreFromJson(JsonObject object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 
 }
