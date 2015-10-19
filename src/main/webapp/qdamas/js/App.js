@@ -10,6 +10,8 @@ function App() {
     this.conexao;
     this.menu;
     this.painel;
+    this.jogador01;
+    this.jogador02;
     this.imagens = new Array("peca_branca.svg", "peca_preta.svg", "peca_azul.svg", "peca_verde.svg"
             , "dama_branca.svg", "dama_preta.svg", "dama_azul.svg", "dama_verde.svg");
     this.audio = {
@@ -19,7 +21,7 @@ function App() {
 
 App.prototype = {
     iniciar: function () {
-        this.tela = new Tela();
+        this.tela = new Tela(600, 600);
         this.criaCanvas();
         this.carregarMidias();
     }, criaCanvas: function () {
@@ -41,10 +43,10 @@ App.prototype = {
         }
         for (var i in this.audio) {
             var audio = new Audio();
-            audio.src = "snd/" + this.audio[i];
+            audio.src = "snd/" + this.audio.principal;
             audio.volume = 0.2;
             audio.load();
-            this.audio[i] = audio;
+            this.audio.principal = audio;
         }
 
     }, carregou: function () {
@@ -63,7 +65,7 @@ App.prototype = {
         };
         this.painel = new Painel(this.contexto);
         this.animacao = new Animacao(this.contexto);
-        this.animacao.novoSprite(this.tabuleiro);
+//        this.animacao.novoSprite(this.tabuleiro);
         this.animacao.novoSprite(this.menu);
         this.animacao.novoSprite(this.painel);
         this.criaPersonagens();
@@ -80,21 +82,24 @@ App.prototype = {
         } else if (informacao.tipo === REM_USUARIO) {
             this.painel.remJogador(informacao.valor.info);
         } else if (informacao.tipo === INICIAR) {
-            var jogadores = informacao.valor.jogadores;
-            for (var i = 0; i < jogadores.length; i++) {
-                if (jogadores[i] != null) {
-                    this.adicionaJogador(jogadores[i]);
-                }
-            }
+            var game = informacao.valor;
+            this.tabuleiro = new Tabuleiro(this.contexto, this);
+            this.tabuleiro.restaurar(game.tabuleiro);
+            this.animacao.novoSprite(this.tabuleiro);
+//            this.adicionaJogador(game.jogador01);
+//            this.adicionaJogador(game.jogador02);
+
         } else if (informacao.tipo === CONTROLE) {
             this.processarComando(informacao.valor);
         } else if (informacao.tipo === MOVE) {
             this.tabuleiro.move(informacao.valor);
         }
     }, adicionaJogador: function (p) {
-        var jogador = new Jogador(this.contexto, this.imagens[p.imagem], p.nome);
-        this.painel.setJogador(jogador);
-        this.animacao.excluirSprite(this.menu);
+        if (p) {
+            var jogador = new Jogador(this.contexto, this.imagens[p.imagem], p.nome);
+            this.painel.setJogador(jogador);
+            this.animacao.excluirSprite(this.menu);
+        }
 
     }, iniciaJogo: function () {
         if (this.painel.jogadoresProntos()) {

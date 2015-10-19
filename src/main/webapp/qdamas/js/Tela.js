@@ -1,7 +1,7 @@
-function Tela() {
-    this.largura = 600;
-    this.altura = 600;
-    this.margemEsquerda = (window.innerWidth - 600) / 2;
+function Tela(largura, altura) {
+    this.largura = largura;
+    this.altura = altura;
+    this.margemEsquerda = (window.innerWidth - largura) / 2;
 }
 
 Tela.prototype = {

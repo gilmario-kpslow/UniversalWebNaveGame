@@ -16,7 +16,7 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import service.damas.Informacao;
 import service.damas.Jogador;
-import service.damas.Jogadores;
+import service.damas.QdamasGame;
 import service.damas.Resposta;
 
 /**
@@ -28,6 +28,7 @@ public class DamasWebSocket {
 
     private static final Map<Session, Jogador> expectadores = new HashMap<>();
     private static final Map<Session, Jogador> jogadores = new HashMap<>();
+    private static final QdamasGame game = new QdamasGame();
 
     @OnMessage
     public void onMessage(Session session, String msg) {
@@ -67,12 +68,7 @@ public class DamasWebSocket {
     }
 
     private void inicializaExpectador(Session sessao) {
-        Jogadores jts = new Jogadores();
-        for (Map.Entry<Session, Jogador> entry : jogadores.entrySet()) {
-            Jogador jogador = entry.getValue();
-            jts.adicionaJogador(jogador);
-        }
-        Informacao i = new Informacao(Informacao.INICIAR, jts.getJsonObject());
+        Informacao i = new Informacao(Informacao.INICIAR, game.getJsonObject());
         enviaTexto(sessao, i.toJson());
     }
 
