@@ -14,6 +14,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
+import service.damas.Comando;
 import service.damas.Informacao;
 import service.damas.Jogador;
 import service.damas.QdamasGame;
@@ -35,8 +36,10 @@ public class DamasWebSocket {
         Informacao info = new Informacao();
         info.restoreFromJson(gerarInformacao(msg));
         if (info.getTipo().equals("controle")) {
+            Comando c = new Comando(info.getJsonObject().getJsonObject("valor"));
+            enviaMensagens(c.getComando().geraResposta(game), expectadores);
         }
-        enviaMensagemATodos(info.toJson());
+//        enviaMensagemATodos(info.toJson());
     }
 
     private JsonObject gerarInformacao(String json) {
@@ -54,7 +57,8 @@ public class DamasWebSocket {
             inicializaExpectador(session);
         } else {
             jogadores.put(session, j);
-            enviaMensagemATodos(new Informacao(Informacao.USUARIO, j.getJsonObject()).toJson());
+            game.setJogador(j);
+            enviaMensagens(new Informacao(Informacao.USUARIO, j.getJsonObject()).toJson(), expectadores);
         }
     }
 
@@ -63,7 +67,7 @@ public class DamasWebSocket {
         expectadores.remove(session);
         Jogador j = jogadores.remove(session);
         if (j != null) {
-            enviaMensagemATodos(new Informacao(Informacao.REM_USUARIO, new Resposta(j.getNome()).getJsonObject()).toJson());
+            enviaMensagens(new Informacao(Informacao.REM_USUARIO, new Resposta(j.getNome()).getJsonObject()).toJson(), expectadores);
         }
     }
 
@@ -80,8 +84,8 @@ public class DamasWebSocket {
         }
     }
 
-    private void enviaMensagemATodos(String mensagem) {
-        for (Map.Entry<Session, Jogador> entry : expectadores.entrySet()) {
+    private void enviaMensagens(String mensagem, Map<Session, Jogador> map) {
+        for (Map.Entry<Session, Jogador> entry : map.entrySet()) {
             Session session = entry.getKey();
             enviaTexto(session, mensagem);
         }

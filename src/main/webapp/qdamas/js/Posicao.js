@@ -1,11 +1,10 @@
-function Posicao(cor, x, y, tamanho, contexto) {
+function Posicao(cor, x, y, tabuleiro, contexto) {
     this.x = x;
     this.y = y;
     this.cor = cor;
-    this.tamanho = tamanho;
     this.peca;
     this.selecionada = false;
-    this.tabuleiro;
+    this.tabuleiro = tabuleiro;
     this.contexto = contexto;
 }
 
@@ -18,9 +17,9 @@ Posicao.prototype = {
         this.selecionada = objeto.selecionada;
         if (objeto.peca) {
             if (!this.peca) {
-                this.peca = new Peca(this.contexto, jogador);
+                this.peca = new Peca(this.contexto, this.tabuleiro.game.pegarJogador(objeto.peca.jogador.nome));
             }
-            this.peca.restaurar(objeto.peca);
+//            this.peca.restaurar(objeto.peca);
         }
     },
     atualizar: function () {
@@ -28,14 +27,15 @@ Posicao.prototype = {
     },
     desenhar: function () {
         this.contexto.save();
-        this.contexto.fillRect(this.x, this.y, tamanho, tamanho);
+        this.contexto.fillStyle = this.cor;
+        this.contexto.fillRect(this.x, this.y, this.tabuleiro.tamanho, this.tabuleiro.tamanho);
 
         if (this.peca) {
-            this.contexto.drawImage(this.peca.jogador.imagem, this.x, this.y, 47, 47);
+            this.contexto.drawImage(this.peca.jogador.imagem, this.x, this.y, this.tabuleiro.tamanho, this.tabuleiro.tamanho);
             if (this.selecionada) {
                 this.contexto.lineWidth = 5;
                 this.contexto.strokeStyle = "#FF0000";
-                this.contexto.strokeRect(this.x, this.y, 50, 50);
+                this.contexto.strokeRect(this.x, this.y, this.tabuleiro.tamanho, this.tabuleiro.tamanho);
             }
         }
         this.contexto.restore();

@@ -1,5 +1,5 @@
 function Tabuleiro(contexto, game) {
-    this.context = contexto;
+    this.contexto = contexto;
     this.tela;
     this.tamanho = 50;
 //    this.pecas = [];
@@ -17,15 +17,15 @@ Tabuleiro.prototype = {
         this.restaurarPosicoes(tabuleiro.posicoes);
 
     },
-    restarurarPosicoes: function (posicoes) {
+    restaurarPosicoes: function (posicoes) {
         this.posicoes = [];
         for (var i = 0; i < posicoes.length; i++) {
             var p = posicoes[i];
-            var pos = new Posicao(p.cor, p.x, p.y, p.tamanho);
+            var pos = new Posicao(p.cor, p.x, p.y, this, this.contexto);
             pos.restaurar(p);
             pos.tabuleiro = this;
             this.posicoes.push(pos);
-
+            this.animacao.novoSprite(pos);
         }
     }
     ,
@@ -58,29 +58,29 @@ Tabuleiro.prototype = {
 
     },
     desenhaCantos: function () {
-        this.context.save();
+        this.contexto.save();
         var medianaW = (this.tela.largura - (this.tamanho * 8)) / 2;
         var medianaH = (this.tela.altura - (this.tamanho * 8)) / 2;
-        this.context.strokeRect(medianaW - 20, medianaH - 20, (this.tamanho * 8) + 40, (this.tamanho * 8) + 40);
+        this.contexto.strokeRect(medianaW - 20, medianaH - 20, (this.tamanho * 8) + 40, (this.tamanho * 8) + 40);
         var letras = new Array("A", "B", "C", "D", "E", "F", "G", "J");
         var numeros = new Array("1", "2", "3", "4", "5", "6", "7", "8");
         for (var a = 0; a < letras.length; a++) {
             var x = medianaW + (this.tamanho * (a + 1)) - this.tamanho / 2;
-            this.context.fillText(letras[a], x, medianaH - 5);
+            this.contexto.fillText(letras[a], x, medianaH - 5);
         }
         for (var a = 0; a < letras.length; a++) {
             var x = medianaW + (this.tamanho * (a + 1)) - this.tamanho / 2;
-            this.context.fillText(letras[a], x, this.tela.altura - medianaH + 12);
+            this.contexto.fillText(letras[a], x, this.tela.altura - medianaH + 12);
         }
         for (var a = 0; a < numeros.length; a++) {
             var y = medianaH + (this.tamanho * (a + 1)) - this.tamanho / 2;
-            this.context.fillText(numeros[a], medianaW - 13, y);
+            this.contexto.fillText(numeros[a], medianaW - 13, y);
         }
         for (var a = 0; a < numeros.length; a++) {
             var y = medianaH + (this.tamanho * (a + 1)) - this.tamanho / 2;
-            this.context.fillText(numeros[a], this.tela.largura - medianaW + 8, y);
+            this.contexto.fillText(numeros[a], this.tela.largura - medianaW + 8, y);
         }
-        this.context.restore();
+        this.contexto.restore();
     }, posicionarPecas: function (jogador) {
         if (this.jogador01 == null) {
             this.jogador01 = jogador;

@@ -30,8 +30,28 @@ public class Comando implements IsJsonObject {
 
     @Override
     public void restoreFromJson(JsonObject o) {
-        this.comando = ComandoControle.valueOf(o.getString("comando"));
-        this.disparou = o.getBoolean("disparou");
+        try {
+            this.comando = ComandoControle.restorePorNome(o.getString("comando"));
+            this.disparou = o.getBoolean("disparou");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public ComandoControle getComando() {
+        return comando;
+    }
+
+    public void setComando(ComandoControle comando) {
+        this.comando = comando;
+    }
+
+    public boolean isDisparou() {
+        return disparou;
+    }
+
+    public void setDisparou(boolean disparou) {
+        this.disparou = disparou;
     }
 
 }

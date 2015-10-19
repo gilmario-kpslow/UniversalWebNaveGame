@@ -43,8 +43,6 @@ Animacao.prototype = {
             this.processamentos[i].processar();
         }
         this.processarExclusoes();
-
-
         this.ultimoCiclo = agora;
         var animacao = this;
         requestAnimationFrame(function () {

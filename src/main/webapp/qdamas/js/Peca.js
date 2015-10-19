@@ -4,7 +4,9 @@ function Peca(contexto, jogador) {
 }
 
 Peca.prototype = {
-    atualizar: function () {
+    restaurar: function (p) {
+
+    }, atualizar: function () {
 
     },
     desenhar: function () {

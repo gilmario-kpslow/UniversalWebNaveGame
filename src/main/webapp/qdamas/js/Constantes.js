@@ -25,6 +25,7 @@ var REM_USUARIO = "rem_usuario";
 var MENSAGEM = "mensagem";
 var INICIAR = "iniciar";
 var CONTROLE = "controle";
+var MOVE = "move";
 /**
  * Constantes Jogador
  */

@@ -18,8 +18,13 @@ public final class QdamasGame implements IsJsonObject {
         tabuleiro = new Tabuleiro();
     }
 
+    public void iniciarJogo() {
+        this.tabuleiro.colocarPecasEmbaixo(jogador01);
+        this.tabuleiro.colocarPecasEmcima(jogador02);
+    }
+
     public void setJogador(Jogador jogador) {
-        if (jogador01 != null) {
+        if (jogador01 == null) {
             jogador01 = jogador;
         } else {
             jogador02 = jogador;
@@ -48,4 +53,5 @@ public final class QdamasGame implements IsJsonObject {
     public void restoreFromJson(JsonObject object) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
 }
