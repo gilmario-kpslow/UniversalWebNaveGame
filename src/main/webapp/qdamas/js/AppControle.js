@@ -17,6 +17,9 @@ function AppControle() {
     this.div_acao;
     this.div_superior;
     this.btnlogar;
+    this.jogador;
+    this.imagem;
+
 }
 
 AppControle.prototype = {
@@ -44,9 +47,9 @@ AppControle.prototype = {
         this.ajustarTela();
     }, conectar: function () {
         var app = this;
-        var nome = document.getElementById("usuario").value;
-        var imagem = document.getElementById("imagem").value;
-        this.conexao = new Conexao(window.location.host, nome, imagem);
+        this.jogador = document.getElementById("usuario").value;
+        this.imagem = document.getElementById("imagem").value;
+        this.conexao = new Conexao(window.location.host, this.jogador, this.imagem);
         this.conexao.onConect = function () {
             app.conectou();
         };
@@ -68,7 +71,7 @@ AppControle.prototype = {
         this.adicionaAcoes(this.btn_start, START, true);
     }, adicionaAcoes: function (botao, COMANDO, disparada) {
         var app = this;
-        var comando = new Comando(COMANDO, disparada);
+        var comando = new Comando(COMANDO, disparada, app.jogador);
         var info = new Informacao();
         info.tipo = CONTROLE;
         info.valor = comando;

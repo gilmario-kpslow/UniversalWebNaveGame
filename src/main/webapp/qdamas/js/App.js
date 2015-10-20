@@ -117,7 +117,7 @@ App.prototype = {
         if (this.jogador01.nome == nome) {
             return this.jogador01;
         } else if (this.jogador02.nome == nome) {
-            return this.jogador01;
+            return this.jogador02;
         } else {
             return null;
         }

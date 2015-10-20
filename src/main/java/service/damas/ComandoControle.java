@@ -5,6 +5,7 @@
  */
 package service.damas;
 
+import service.damas.comandos.ProcessaComando;
 import service.damas.comandos.ProcessaComandoStart;
 
 /**

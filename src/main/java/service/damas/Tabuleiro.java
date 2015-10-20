@@ -12,7 +12,8 @@ import javax.json.JsonObjectBuilder;
 public class Tabuleiro implements IsJsonObject {
 
     private Posicao[] posicoes;
-    private Posicao[] PosicaoPretas;
+    private int selecionada01 = 0;
+    private int selecionada02 = 31;
     private final Tela tela;
     private final int tamanho = 50;
 
@@ -23,7 +24,7 @@ public class Tabuleiro implements IsJsonObject {
 
     private void colocarPecas(Jogador jogador, int posicao) {
         for (int i = 0; i < 12; i++) {
-            PosicaoPretas[i + posicao].posicionaPeca(new Peca(jogador));
+            posicoes[i + posicao].posicionaPeca(new Peca(jogador));
         }
     }
 
@@ -36,22 +37,19 @@ public class Tabuleiro implements IsJsonObject {
     }
 
     private void criarPosicoes() {
-        posicoes = new Posicao[64];
-        PosicaoPretas = new Posicao[32];
+        posicoes = new Posicao[32];
         int k = 0;
         for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                String cor;
-                if ((j + i) % 2 == 1) {
-                    cor = "#FFF";
+            for (int j = 0; j < 8; j += 2) {
+                int x;
+                if (i % 2 == 0) {
+                    x = j * this.tamanho + (this.tela.largura - (this.tamanho * 8)) / 2;
                 } else {
-                    cor = "#333";
+                    x = j * this.tamanho + (this.tela.largura - (this.tamanho * 8)) / 2 + this.tamanho;
                 }
-                Posicao posicao = new Posicao(cor, j * this.tamanho + (this.tela.largura - (this.tamanho * 8)) / 2, (i * this.tamanho) + (this.tela.altura - (this.tamanho * 8)) / 2);
+                int y = (i * this.tamanho) + (this.tela.altura - (this.tamanho * 8)) / 2;
+                Posicao posicao = new Posicao("#000", x, y);
                 posicoes[k] = posicao;
-                if (k % 2 == 0) {
-                    PosicaoPretas[k / 2] = posicao;
-                }
                 k++;
             }
         }
@@ -71,5 +69,9 @@ public class Tabuleiro implements IsJsonObject {
     @Override
     public void restoreFromJson(JsonObject object) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    void moveDireita(Jogador jogador) {
+
     }
 }

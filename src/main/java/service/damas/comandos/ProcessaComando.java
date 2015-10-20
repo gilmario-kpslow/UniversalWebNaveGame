@@ -3,7 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package service.damas;
+package service.damas.comandos;
+
+import service.damas.Informacao;
+import service.damas.QdamasGame;
 
 /**
  *

@@ -23,6 +23,10 @@ public final class QdamasGame implements IsJsonObject {
         this.tabuleiro.colocarPecasEmcima(jogador02);
     }
 
+    public void moveDireita(Jogador jogador) {
+        tabuleiro.moveDireita(jogador);
+    }
+
     public void setJogador(Jogador jogador) {
         if (jogador01 == null) {
             jogador01 = jogador;
