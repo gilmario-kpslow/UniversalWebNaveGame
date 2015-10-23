@@ -37,9 +37,8 @@ public class DamasWebSocket {
         info.restoreFromJson(gerarInformacao(msg));
         if (info.getTipo().equals("controle")) {
             Comando c = new Comando(info.getJsonObject().getJsonObject("valor"));
-            enviaMensagens(c.getComando().geraResposta(game), expectadores);
+            enviaMensagens(c.getComando().geraResposta(game, c), expectadores);
         }
-//        enviaMensagemATodos(info.toJson());
     }
 
     private JsonObject gerarInformacao(String json) {
@@ -49,16 +48,14 @@ public class DamasWebSocket {
 
     @OnOpen
     public void onOpen(Session session, EndpointConfig config, @PathParam("usuario") String nome, @PathParam("imagem") Integer imagem) {
-        Jogador j = new Jogador();
-        j.setImagem(imagem);
-        j.setNome(nome);
+
         if (nome.equals("espectador")) {
-            expectadores.put(session, j);
+            expectadores.put(session, new Jogador(imagem, nome, expectadores.size() + 1));
             inicializaExpectador(session);
         } else {
-            jogadores.put(session, j);
-            game.setJogador(j);
-            enviaMensagens(new Informacao(Informacao.USUARIO, j.getJsonObject()).toJson(), expectadores);
+            game.setJogador(nome, imagem);
+            jogadores.put(session, game.getJogador(nome));
+            enviaMensagens(new Informacao(Informacao.USUARIO, game.getJsonObject()).toJson(), expectadores);
         }
     }
 
@@ -66,6 +63,8 @@ public class DamasWebSocket {
     public void onClose(Session session, CloseReason closeReason) {
         expectadores.remove(session);
         Jogador j = jogadores.remove(session);
+        game.remJogador(j);
+        enviaMensagens(new Informacao(Informacao.USUARIO, game.getJsonObject()).toJson(), expectadores);
         if (j != null) {
             enviaMensagens(new Informacao(Informacao.REM_USUARIO, new Resposta(j.getNome()).getJsonObject()).toJson(), expectadores);
         }

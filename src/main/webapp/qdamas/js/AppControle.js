@@ -59,33 +59,29 @@ AppControle.prototype = {
         this.btnlogar.addEventListener("click", function () {
             app.conectar();
         });
-        this.adicionaAcoes(this.btn_direcao_subir, COMANDO_SUBIR);
-        this.adicionaAcoes(this.btn_direcao_descer, COMANDO_DECER);
-        this.adicionaAcoes(this.btn_direcao_esquerda, COMANDO_ESQUERDA);
-        this.adicionaAcoes(this.btn_direcao_direita, COMANDO_DIREITA);
-        this.adicionaAcoes(this.btn_acao_a, ACAO_01, true);
-        this.adicionaAcoes(this.btn_acao_b, ACAO_02, true);
-        this.adicionaAcoes(this.btn_l, BOTAO_L, true);
-        this.adicionaAcoes(this.btn_r, BOTAO_R, true);
-        this.adicionaAcoes(this.btn_select, SELECT, true);
-        this.adicionaAcoes(this.btn_start, START, true);
-    }, adicionaAcoes: function (botao, COMANDO, disparada) {
+
+    }, adicionaAcoes: function (botao, COMANDO) {
         var app = this;
-        var comando = new Comando(COMANDO, disparada, app.jogador);
+        var comando = new Comando(COMANDO, app.jogador);
         var info = new Informacao();
         info.tipo = CONTROLE;
         info.valor = comando;
         botao.addEventListener("touchstart", function () {
             app.conexao.enviar(JSON.stringify(info));
         });
-        if (!disparada) {
-            botao.addEventListener("touchend", function () {
-                app.conexao.enviar(JSON.stringify(info));
-            });
-        }
     }, conectou: function () {
         this.div_login.style.display = "none";
         this.div_controle.style.display = "block";
+        this.adicionaAcoes(this.btn_direcao_subir, COMANDO_SUBIR);
+        this.adicionaAcoes(this.btn_direcao_descer, COMANDO_DECER);
+        this.adicionaAcoes(this.btn_direcao_esquerda, COMANDO_ESQUERDA);
+        this.adicionaAcoes(this.btn_direcao_direita, COMANDO_DIREITA);
+        this.adicionaAcoes(this.btn_acao_a, ACAO_01);
+        this.adicionaAcoes(this.btn_acao_b, ACAO_02);
+        this.adicionaAcoes(this.btn_l, BOTAO_L);
+        this.adicionaAcoes(this.btn_r, BOTAO_R);
+        this.adicionaAcoes(this.btn_select, SELECT);
+        this.adicionaAcoes(this.btn_start, START);
     }, ajustarTela: function () {
         this.div_superior.style.height = this.tela.height * 0.12 + "px";
         this.div_superior.style.padding = "2px";

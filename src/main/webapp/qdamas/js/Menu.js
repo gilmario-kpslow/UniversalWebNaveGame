@@ -1,25 +1,24 @@
-function Menu(contexto, tela) {
+function Menu(contexto, mensagem) {
     this.contexto = contexto;
-    this.tela = tela;
+    this.mensagem = mensagem;
+
 }
 
 Menu.prototype = {
+    restaurar: function (menu) {
+        this.mensagem = menu.mensagem;
+    },
     atualizar: function () {
 
     },
     desenhar: function () {
         this.contexto.save();
-        this.contexto.globalAlpha = 0.4;
-        this.contexto.fillStyle = "#EEE";
-        this.contexto.fillRect(0, 0, this.tela.largura, this.tela.altura);
-        this.contexto.restore();
-        this.contexto.save();
-        this.contexto.font = "50px sans-serif";
-        this.contexto.strokeStyle = "#FFFFFF";
-        this.contexto.lineWidth = 5;
-        var margem = (this.tela.largura - this.contexto.measureText("Aguardando jogadores").width) / 2;
-        this.contexto.strokeText("Aguardando jogadores", margem, this.tela.altura / 2);
-        this.contexto.fillText("Aguardando jogadores", margem, this.tela.altura / 2);
+        this.contexto.strokeStyle = "#000";
+        //this.contexto.strokeRect(80, 60, 200, 20);
+        this.contexto.clearRect(80, 60, 200, 20);
+        this.contexto.fillStyle = "#000";
+        this.contexto.font = "10px sans-serif";
+        this.contexto.fillText(this.mensagem, 80, 70);
         this.contexto.restore();
     }
 };

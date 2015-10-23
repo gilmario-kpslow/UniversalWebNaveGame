@@ -11,6 +11,7 @@ import javax.json.JsonObjectBuilder;
 public class Peca implements IsJsonObject {
 
     private Jogador jogador;
+    private boolean dama;
 
     public Peca() {
     }
@@ -19,10 +20,18 @@ public class Peca implements IsJsonObject {
         this.jogador = jogador;
     }
 
+    public Jogador getJogador() {
+        return jogador;
+    }
+
+    public boolean isDama() {
+        return dama;
+    }
+
     @Override
     public JsonObject getJsonObject() {
         JsonObjectBuilder buider = Json.createObjectBuilder();
-        return buider.add("jogador", jogador.getJsonObject()).build();
+        return buider.add("dama", dama).add("jogador", jogador.getJsonObject()).build();
     }
 
     @Override

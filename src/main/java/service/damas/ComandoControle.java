@@ -6,7 +6,13 @@
 package service.damas;
 
 import service.damas.comandos.ProcessaComando;
+import service.damas.comandos.ProcessaComandoA;
+import service.damas.comandos.ProcessaComandoB;
+import service.damas.comandos.ProcessaComandoDescer;
+import service.damas.comandos.ProcessaComandoDireita;
+import service.damas.comandos.ProcessaComandoEsquerda;
 import service.damas.comandos.ProcessaComandoStart;
+import service.damas.comandos.ProcessaComandoSubir;
 
 /**
  *
@@ -14,12 +20,12 @@ import service.damas.comandos.ProcessaComandoStart;
  */
 public enum ComandoControle {
 
-    COMANDO_ESQUERDA("esquerda", null),
-    COMANDO_DIREITA("direita", null),
-    COMANDO_SUBIR("subir", null),
-    COMANDO_DECER("descer", null),
-    ACAO_01("acao01", null),
-    ACAO_02("acao02", null),
+    COMANDO_ESQUERDA("esquerda", new ProcessaComandoEsquerda()),
+    COMANDO_DIREITA("direita", new ProcessaComandoDireita()),
+    COMANDO_SUBIR("subir", new ProcessaComandoSubir()),
+    COMANDO_DECER("descer", new ProcessaComandoDescer()),
+    ACAO_01("acao01", new ProcessaComandoA()),
+    ACAO_02("acao02", new ProcessaComandoB()),
     BOTAO_L("botaol", null),
     BOTAO_R("botaor", null),
     SELECT("select", null),
@@ -47,8 +53,8 @@ public enum ComandoControle {
         return descricao;
     }
 
-    public String geraResposta(QdamasGame game) {
-        return processa.processarComando(game).toJson();
+    public String geraResposta(QdamasGame game, Comando comando) {
+        return processa.processarComando(game, comando).toJson();
     }
 
 }

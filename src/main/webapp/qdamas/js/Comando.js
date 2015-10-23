@@ -1,5 +1,4 @@
-function Comando(COMANDO, disparar, jogador) {
-    this.comando = COMANDO;
-    this.disparou = disparar;
+function Comando(comando, jogador) {
+    this.comando = comando;
     this.jogador = jogador;
 }

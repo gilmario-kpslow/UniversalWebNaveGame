@@ -12,8 +12,8 @@ function App() {
     this.painel;
     this.jogador01;
     this.jogador02;
-    this.imagens = new Array("peca_branca.svg", "peca_preta.svg", "peca_azul.svg", "peca_verde.svg"
-            , "dama_branca.svg", "dama_preta.svg", "dama_azul.svg", "dama_verde.svg");
+    this.imagens = new Array("peca_branca.svg", "peca_preta.svg", "peca_verde.svg", "peca_azul.svg"
+            , "dama_branca.svg", "dama_preta.svg", "dama_verde.svg", "dama_azul.svg");
     this.audio = {
         principal: "musica.mp3"
     };
@@ -63,24 +63,26 @@ App.prototype = {
         this.conexao.onMessage = function (dados) {
             app.receberConexao(dados);
         };
-        this.painel = new Painel(this.contexto);
+        this.painel = new Painel(this.contexto, app);
         this.animacao = new Animacao(this.contexto);
-//        this.animacao.novoSprite(this.tabuleiro);
-//        this.animacao.novoSprite(this.menu);
         this.animacao.novoSprite(this.painel);
         this.criaPersonagens();
         this.conexao.conectar();
 
-    }, criaPersonagens: function () {
+    },
+    criaPersonagens: function () {
         this.animacao.ligar();
 //        this.audio.principal.play();
-    }, receberConexao: function (dados) {
-        console.log(dados);
+    },
+    receberConexao: function (dados) {
+        //console.log(dados);
         var informacao = JSON.parse(dados);
         if (informacao.tipo === USUARIO) {
-//            this.adicionaJogador(informacao.valor);
-        } else if (informacao.tipo === REM_USUARIO) {
-            this.painel.remJogador(informacao.valor.info);
+            var game = informacao.valor;
+            this.restauraJogador01(game.jogador01);
+            this.restauraJogador02(game.jogador02);
+            this.menu.restaurar(game.menu);
+            this.tabuleiro.restaurar(game.tabuleiro);
         } else if (informacao.tipo === INICIAR) {
             var game = informacao.valor;
             this.tabuleiro = new Tabuleiro(this.contexto, this);
@@ -88,32 +90,25 @@ App.prototype = {
             this.restauraJogador01(game.jogador01);
             this.restauraJogador02(game.jogador02);
             this.tabuleiro.restaurar(game.tabuleiro);
-//            this.adicionaJogador(game.jogador01);
-//            this.adicionaJogador(game.jogador02);
+            this.menu = new Menu(this.contexto, "Aguardando informações");
+            this.menu.restaurar(game.menu);
+            this.animacao.novoSprite(this.menu);
         } else if (informacao.tipo === MOVE) {
-            this.tabuleiro.move(informacao.valor);
+            var game = informacao.valor;
+            this.tabuleiro.restaurar(game.tabuleiro);
+            this.menu.restaurar(game.menu);
         }
-    }, adicionaJogador: function (p) {
-        if (p) {
-            var jogador = new Jogador(this.contexto, this.imagens[p.imagem], p.nome);
-            this.painel.setJogador(jogador);
-            this.animacao.excluirSprite(this.menu);
-        }
-
-    }, iniciaJogo: function () {
+    },
+    iniciaJogo: function () {
         if (this.painel.jogadoresProntos()) {
             this.posicionaPecas(this.painel.jogador1);
             this.posicionaPecas(this.painel.jogador2);
         }
-    }, posicionaPecas: function (j) {
+    },
+    posicionaPecas: function (j) {
         this.tabuleiro.posicionarPecas(j);
-    }, processarComando: function (comando) {
-        if (comando.disparou) {
-            this.controle.disparar(comando.comando);
-        } else {
-            this.controle.pressionar(comando.comando);
-        }
-    }, pegarJogador: function (nome) {
+    },
+    pegarJogador: function (nome) {
         if (this.jogador01.nome == nome) {
             return this.jogador01;
         } else if (this.jogador02.nome == nome) {
@@ -122,14 +117,16 @@ App.prototype = {
             return null;
         }
     }, restauraJogador01: function (jogador01) {
-        if (!this.jogador01 && jogador01 != null) {
-            this.jogador01 = new Jogador(this.contexto, this.imagens[jogador01.imagem], jogador01.nome);
-            this.painel.setJogador(this.jogador01);
+        if (jogador01 != null) {
+            this.jogador01 = new Jogador(this.contexto, this.imagens[jogador01.imagem], jogador01.nome, jogador01.x, jogador01.y);
+        } else {
+            this.jogador01 = null;
         }
     }, restauraJogador02: function (jogador02) {
-        if (!this.jogador02 && jogador02 != null) {
-            this.jogador02 = new Jogador(this.contexto, this.imagens[jogador02.imagem], jogador02.nome);
-            this.painel.setJogador(this.jogador02);
+        if (jogador02 != null) {
+            this.jogador02 = new Jogador(this.contexto, this.imagens[jogador02.imagem], jogador02.nome, jogador02.x, jogador02.y);
+        } else {
+            this.jogador02 = null;
         }
     }
 };

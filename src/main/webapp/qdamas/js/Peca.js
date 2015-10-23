@@ -1,6 +1,7 @@
 function Peca(contexto, jogador) {
     this.contexto = contexto;
     this.jogador = jogador;
+    this.dama = false;
 }
 
 Peca.prototype = {

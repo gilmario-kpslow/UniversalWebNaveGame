@@ -8,12 +8,12 @@ import service.damas.QdamasGame;
  *
  * @author gilmario
  */
-public class ProcessaComandoStart implements ProcessaComando {
+public class ProcessaComandoA implements ProcessaComando {
 
     @Override
     public Informacao processarComando(QdamasGame game, Comando comando) {
-        game.iniciarJogo();
-        Informacao info = new Informacao(Informacao.INICIAR, game.getJsonObject());
+        game.acaoBotaoA(game.getJogador(comando.getJogador()));
+        Informacao info = new Informacao(Informacao.MOVE, game.getJsonObject());
         return info;
     }
 

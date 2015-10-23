@@ -14,6 +14,7 @@ public class Informacao implements IsJsonObject {
     public static final String REM_USUARIO = "rem_usuario";
     public static final String INICIAR = "iniciar";
     public static final String COMANDO = "comando";
+    public static final String MOVE = "move";
 
     private String tipo;
     private JsonObject valor;

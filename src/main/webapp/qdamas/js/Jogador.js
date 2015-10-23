@@ -1,10 +1,12 @@
-function Jogador(contexto, imagem, nome) {
+function Jogador(contexto, imagem, nome, x, y, cor, numero) {
     this.contexto = contexto;
-    this.x = 0;
-    this.y = 0;
+    this.x = x;
+    this.y = y;
     this.imagem = imagem;
+    this.cor = cor;
     this.nome = nome;
     this.status = STATUS_AGUARDANDO;
+    this.numero = numero;
 }
 
 Jogador.prototype = {
@@ -15,7 +17,7 @@ Jogador.prototype = {
         this.contexto.save();
         this.contexto.drawImage(this.imagem, this.x, this.y + 5, 40, 40);
         this.contexto.fillText(this.nome, this.x + 5, this.y + 5);
-        this.contexto.fillText(this.status, this.x + 5, this.y + 50);
+        //this.contexto.fillText(this.status, this.x + 5, this.y + 50);
         this.contexto.restore();
     }
 };

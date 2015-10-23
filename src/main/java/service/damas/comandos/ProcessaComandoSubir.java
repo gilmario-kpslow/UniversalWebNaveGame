@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package service.damas.comandos;
 
 import service.damas.Comando;
@@ -8,11 +13,11 @@ import service.damas.QdamasGame;
  *
  * @author gilmario
  */
-public class ProcessaComandoEsquerda implements ProcessaComando {
+public class ProcessaComandoSubir implements ProcessaComando {
 
     @Override
     public Informacao processarComando(QdamasGame game, Comando comando) {
-        game.moveEsquerda(game.getJogador(comando.getJogador()));
+        game.moveSubir(game.getJogador(comando.getJogador()));
         Informacao info = new Informacao(Informacao.MOVE, game.getJsonObject());
         return info;
     }

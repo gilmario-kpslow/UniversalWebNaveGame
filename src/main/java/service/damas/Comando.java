@@ -11,11 +11,10 @@ import javax.json.JsonObjectBuilder;
 public class Comando implements IsJsonObject {
 
     private ComandoControle comando;
-    private boolean disparou;
+    private String jogador;
 
-    public Comando(ComandoControle comando, boolean disparou) {
+    public Comando(ComandoControle comando) {
         this.comando = comando;
-        this.disparou = disparou;
     }
 
     public Comando(JsonObject o) {
@@ -25,17 +24,25 @@ public class Comando implements IsJsonObject {
     @Override
     public JsonObject getJsonObject() {
         JsonObjectBuilder builder = Json.createObjectBuilder();
-        return builder.add("comando", comando.toString()).add("disparou", disparou).build();
+        return builder.add("comando", comando.toString()).build();
     }
 
     @Override
     public void restoreFromJson(JsonObject o) {
         try {
             this.comando = ComandoControle.restorePorNome(o.getString("comando"));
-            this.disparou = o.getBoolean("disparou");
+            this.jogador = o.getString("jogador");
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public String getJogador() {
+        return jogador;
+    }
+
+    public void setJogador(String jogador) {
+        this.jogador = jogador;
     }
 
     public ComandoControle getComando() {
@@ -44,14 +51,6 @@ public class Comando implements IsJsonObject {
 
     public void setComando(ComandoControle comando) {
         this.comando = comando;
-    }
-
-    public boolean isDisparou() {
-        return disparou;
-    }
-
-    public void setDisparou(boolean disparou) {
-        this.disparou = disparou;
     }
 
 }
