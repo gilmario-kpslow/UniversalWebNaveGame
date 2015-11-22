@@ -15,10 +15,12 @@ public final class QdamasGame implements IsJsonObject {
     private final Tabuleiro tabuleiro;
     private boolean turno;
     private final Menu menu;
+    private final Painel painel;
 
     public QdamasGame() {
         menu = new Menu("Aguardando Jogadores.");
         tabuleiro = new Tabuleiro(this);
+        painel = new Painel();
     }
 
     protected void jogou() {
@@ -28,6 +30,10 @@ public final class QdamasGame implements IsJsonObject {
         } else {
             menu.setMensagem("É a vez do " + jogador01.getNome());
         }
+    }
+
+    public Painel getPainel() {
+        return painel;
     }
 
     public void iniciarJogo() {
@@ -107,6 +113,7 @@ public final class QdamasGame implements IsJsonObject {
             builder.add("jogador02", jogador02.getJsonObject());
         }
         builder.add("tabuleiro", this.tabuleiro.getJsonObject())
+                .add("painel", painel.getJsonObject())
                 .add("menu", menu.getJsonObject());
         return builder.build();
     }

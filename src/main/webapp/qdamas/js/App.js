@@ -82,6 +82,7 @@ App.prototype = {
             this.restauraJogador01(game.jogador01);
             this.restauraJogador02(game.jogador02);
             this.menu.restaurar(game.menu);
+            this.painel.restaurar(game.painel);
             this.tabuleiro.restaurar(game.tabuleiro);
         } else if (informacao.tipo === INICIAR) {
             var game = informacao.valor;
@@ -97,6 +98,7 @@ App.prototype = {
             var game = informacao.valor;
             this.tabuleiro.restaurar(game.tabuleiro);
             this.menu.restaurar(game.menu);
+            this.painel.restaurar(game.painel);
         }
     },
     iniciaJogo: function () {

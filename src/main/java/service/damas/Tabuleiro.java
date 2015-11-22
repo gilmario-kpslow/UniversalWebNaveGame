@@ -12,6 +12,7 @@ import javax.json.JsonObjectBuilder;
 public class Tabuleiro implements IsJsonObject {
 
     private Posicao[] posicoes;
+
     private int selecionada01 = 31;
     private int selecionada02 = 0;
     private final Tela tela;
@@ -66,7 +67,9 @@ public class Tabuleiro implements IsJsonObject {
         for (Posicao posicoe : posicoes) {
             arrayBuilder.add(posicoe.getJsonObject());
         }
-        builder.add("tela", this.tela.getJsonObject()).add("tamanho", this.tamanho).add("posicoes", arrayBuilder);
+        builder.add("tela", this.tela.getJsonObject())
+                .add("tamanho", this.tamanho)
+                .add("posicoes", arrayBuilder);
         return builder.build();
     }
 
@@ -77,13 +80,13 @@ public class Tabuleiro implements IsJsonObject {
 
     void marcaSelecao01() {
         // Verificar se a peca marcada anterior tinha uma peca
-
+        // Mover Peça
         Posicao posicaoAtual = posicoes[selecionada01];
-        if (macada01 != null && macada01.getPeca() != null && posicaoAtual.isMarcado() && posicaoAtual.getPeca() == null) {
+        if (macada01 != null && macada01.getPeca() != null && macada01.getPeca().getJogador().equals(game.getJogador01()) && posicaoAtual.isMarcado() && posicaoAtual.getPeca() == null) {
             posicaoAtual.setPeca(macada01.getPeca());
             macada01.setPeca(null);
+            verificaCaminho(this.macada01, posicaoAtual, game.getPainel().getRemove01Listener());
             desmarcarTodos();
-            deselecionar();
             game.jogou();
         } else {
             desmarcarTodos();
@@ -95,11 +98,23 @@ public class Tabuleiro implements IsJsonObject {
     }
 
     void marcaSelecao02() {
-        desmarcarTodos();
-        posicoes[selecionada02].setMarcado(true);
-        Posicao p = posicoes[selecionada02];
-        if (p.getPeca() != null) {
-            marcarProximos02(p);
+        Posicao posicaoAtual = posicoes[selecionada02];
+        if (macada02 != null && macada02.getPeca() != null && posicaoAtual.isMarcado() && posicaoAtual.getPeca() == null) {
+            posicaoAtual.setPeca(macada02.getPeca());
+            macada02.setPeca(null);
+            // Verificar se possue uma peça no caminho
+            verificaCaminho(this.macada02, posicaoAtual, game.getPainel().getRemove02Listener());
+            //
+            desmarcarTodos();
+            game.jogou();
+
+        } else {
+            desmarcarTodos();
+            posicoes[selecionada02].setMarcado(true);
+            Posicao p = posicoes[selecionada02];
+            if (p.getPeca() != null) {
+                marcarProximos02(p);
+            }
         }
     }
 
@@ -192,16 +207,35 @@ public class Tabuleiro implements IsJsonObject {
 
     private void marcarProximos01(Posicao p) {
         p.setMarcado(true);
-        this.macada02 = p;
+        this.macada01 = p;
         int x1 = p.getX() + tamanho;
         int x2 = p.getX() - tamanho;
         int y = p.getY() - tamanho;
         for (Posicao pp : posicoes) {
             if (pp.getX() == x1 && pp.getY() == y) {
                 pp.setMarcado(true);
+                possuePecaInimigo(p, pp, game.getJogador02());
             }
             if (pp.getX() == x2 && pp.getY() == y) {
                 pp.setMarcado(true);
+                possuePecaInimigo(p, pp, game.getJogador02());
+            }
+        }
+
+    }
+
+    private void possuePecaInimigo(Posicao pbase, Posicao p, Jogador inimigo) {
+        if (p.getPeca() != null && p.getPeca().getJogador().equals(inimigo)) {
+            int x1 = pbase.getX() + (2 * tamanho);
+            int x2 = pbase.getX() - (2 * tamanho);
+            int y = pbase.getY() - (2 * tamanho);
+            for (Posicao pp : posicoes) {
+                if (pp.getX() == x1 && pp.getY() == y && pp.getPeca() == null) {
+                    pp.setMarcado(true);
+                }
+                if (pp.getX() == x2 && pp.getY() == y && pp.getPeca() == null) {
+                    pp.setMarcado(true);
+                }
             }
         }
     }
@@ -215,9 +249,36 @@ public class Tabuleiro implements IsJsonObject {
         for (Posicao pp : posicoes) {
             if (pp.getX() == x1 && pp.getY() == y) {
                 pp.setMarcado(true);
+                possuePecaInimigo(p, pp, game.getJogador01());
             }
             if (pp.getX() == x2 && pp.getY() == y) {
                 pp.setMarcado(true);
+                possuePecaInimigo(p, pp, game.getJogador01());
+            }
+        }
+    }
+
+    private void verificaCaminho(Posicao anterior, Posicao atual, Listener listener) {
+        for (Posicao p : posicoes) {
+            if (p.getPeca() != null) {
+                int corretas = 0;
+                if (p.getX() == atual.getX() + tamanho) {
+                    corretas++;
+                }
+                if (p.getY() == atual.getY() + tamanho) {
+                    corretas++;
+                }
+                if (p.getX() == anterior.getX() - tamanho) {
+                    corretas++;
+                }
+
+                if (p.getY() == anterior.getY() - tamanho) {
+                    corretas++;
+                }
+                if (corretas == 4) {
+                    p.setPeca(null);
+                    listener.executa();
+                }
             }
         }
     }
