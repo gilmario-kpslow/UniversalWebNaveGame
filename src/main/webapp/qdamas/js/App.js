@@ -59,7 +59,7 @@ App.prototype = {
         this.tabuleiro = new Tabuleiro(this.contexto, this);
         this.controle = new Controle();
         this.menu = new Menu(this.contexto, this.tela);
-        this.conexao = new Conexao(window.location.host, "espectador", 0);
+        this.conexao = new Conexao(window.location.host + "/servidor/damassoket/", "espectador", 0);
         this.conexao.onMessage = function (dados) {
             app.receberConexao(dados);
         };
@@ -120,13 +120,13 @@ App.prototype = {
         }
     }, restauraJogador01: function (jogador01) {
         if (jogador01 != null) {
-            this.jogador01 = new Jogador(this.contexto, this.imagens[jogador01.imagem], jogador01.nome, jogador01.x, jogador01.y);
+            this.jogador01 = new Jogador(this.contexto, this.imagens[jogador01.imagem], jogador01.nome, jogador01.x, jogador01.y, this.imagens[jogador01.imagem + 4]);
         } else {
             this.jogador01 = null;
         }
     }, restauraJogador02: function (jogador02) {
         if (jogador02 != null) {
-            this.jogador02 = new Jogador(this.contexto, this.imagens[jogador02.imagem], jogador02.nome, jogador02.x, jogador02.y);
+            this.jogador02 = new Jogador(this.contexto, this.imagens[jogador02.imagem], jogador02.nome, jogador02.x, jogador02.y, this.imagens[jogador02.imagem + 4]);
         } else {
             this.jogador02 = null;
         }

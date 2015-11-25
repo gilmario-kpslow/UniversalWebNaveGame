@@ -1,8 +1,8 @@
 package service.damas.comandos;
 
-import service.damas.Comando;
-import service.damas.Informacao;
-import service.damas.QdamasGame;
+import service.util.Comando;
+import service.util.Informacao;
+import service.util.Game;
 
 /**
  *
@@ -11,8 +11,8 @@ import service.damas.QdamasGame;
 public class ProcessaComandoStart implements ProcessaComando {
 
     @Override
-    public Informacao processarComando(QdamasGame game, Comando comando) {
-        game.iniciarJogo();
+    public Informacao processarComando(Game game, Comando comando) {
+        game.comandoStart();
         Informacao info = new Informacao(Informacao.INICIAR, game.getJsonObject());
         return info;
     }

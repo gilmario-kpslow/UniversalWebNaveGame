@@ -38,7 +38,11 @@ Posicao.prototype = {
             this.contexto.fillRect(this.x, this.y, this.tabuleiro.tamanho, this.tabuleiro.tamanho);
         }
         if (this.peca) {
-            this.contexto.drawImage(this.peca.jogador.imagem, this.x, this.y, this.tabuleiro.tamanho, this.tabuleiro.tamanho);
+            if (this.peca.dama) {
+                this.contexto.drawImage(this.peca.jogador.imagemDama, this.x, this.y, this.tabuleiro.tamanho, this.tabuleiro.tamanho);
+            } else {
+                this.contexto.drawImage(this.peca.jogador.imagem, this.x, this.y, this.tabuleiro.tamanho, this.tabuleiro.tamanho);
+            }
         }
         if (this.selecionada) {
             this.contexto.lineWidth = 3;

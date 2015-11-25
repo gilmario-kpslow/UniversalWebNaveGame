@@ -4,14 +4,15 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import service.damas.comandos.Cores;
+import service.util.JogadorInterface;
 
 /**
  *
  * @author gilmario
  */
-public class Jogador implements IsJsonObject {
+public class Jogador implements JogadorInterface {
 
-    private Integer imagem;
+    private String imagem;
     private String nome;
     private String cor;
     private Integer x;
@@ -25,7 +26,7 @@ public class Jogador implements IsJsonObject {
         this.numero = numero;
     }
 
-    public Jogador(Integer imagem, String nome, Integer numero) {
+    public Jogador(String imagem, String nome, Integer numero) {
         this.imagem = imagem;
         this.nome = nome;
         this.numero = numero;
@@ -35,19 +36,21 @@ public class Jogador implements IsJsonObject {
         return numero;
     }
 
-    public Integer getImagem() {
+    public String getImagem() {
         return imagem;
     }
 
-    public void setImagem(Integer imagem) {
+    public void setImagem(String imagem) {
         this.imagem = imagem;
-        this.cor = Cores.cores[imagem];
+        this.cor = Cores.cores[Integer.parseInt(imagem)];
     }
 
+    @Override
     public String getNome() {
         return nome;
     }
 
+    @Override
     public void setNome(String nome) {
         this.nome = nome;
     }

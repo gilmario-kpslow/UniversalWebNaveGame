@@ -1,89 +1,62 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>QDamas</title>
+        <title>Game</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/bootstrap.min.css" rel="stylesheet"/>
+        <link href="css/bootstrap-theme.min.css" rel="stylesheet"/>
+        <link href="css/stilo.css" rel="stylesheet"/>
         <link href="css/controle.css" rel="stylesheet"/>
     </head>
     <body >
-        <div hidden>
-            Controle
-        </div>
-        <div id="login">
-            <span>Nome</span>
-            <input id="usuario" placeholder="Informe seu nome"/>
-            <select id="imagem">
-                <option value="0">Branco</option>
-                <option value="1">Preto</option>
-                <option value="2">Verde</option>
-                <option value="3">Azul</option>
-            </select>
-            <button id="btnlogar" type="button">Logar</button>
+        <div class="container">
+            <div class="row">
+                <div id="login" class="col-lg-12 col-md-12">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <span class="text-info">Nome</span>
+                            <input id="usuario" placeholder="Informe seu nome" class="form-control"/>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <span class="text-info">Cor da nave</span>
+                            <div class="row">
+                                <div class="col-lg-8 col-md-8">
+                                    <select id="imagem" class="form-control">
+                                        <option value="0">Branco</option>
+                                        <option value="1">Preto</option>
+                                        <option value="2">Verde</option>
+                                        <option value="3">Azul</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-4 col-md-4">
+                                    <button id="btnlogar" class="form-control" type="button">Entrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
         <div id="controle" hidden="hidden">
-            <div id="div_superior">
-                <div class="esquerda">
-                    <img id="btn_l" src="img/controle/botao_l.svg"  alt=""/>
-                </div>
-                <div class="direita">
-                    <img  id="btn_r" src="img/controle/botao_r.svg"  alt=""/>
-                </div>
-            </div>
-            <div style="clear: both;"></div>
-            <div>
-                <div id="div_direcional" class="esquerda">
-                    <div class="esquerda">
-                        <img src="img/controle/branco.svg"  class="direcional" alt=""/>
-                    </div>
-                    <div class="esquerda">
-                        <img class="direcional" id="btn_direcao_subir" src="img/controle/botao_subir.svg" alt=""/>
-                    </div>
-                    <div class="esquerda">
-                        <img src="img/controle/branco.svg" class="direcional" alt=""/>
-                    </div>
-                    <div class="esquerda">
-                        <img id="btn_direcao_esquerda" class="direcional" src="img/controle/botao_esquerda.svg"  alt=""/>
-                    </div>
-                    <div class="esquerda">
-                        <img src="img/controle/branco.svg" class="direcional" alt=""/>
-                    </div>
-                    <div id="btn_d" class="esquerda">
-                        <img id="btn_direcao_direita" class="direcional" src="img/controle/botao_direita.svg" alt=""/>
-                    </div>
-                    <div class="esquerda">
-                        <img src="img/controle/branco.svg" class="direcional" alt=""/>
-                    </div>
-                    <div  class="esquerda" style="border: 1px solid red;" >
-                        <img id="btn_direcao_descer"  class="direcional" src="img/controle/botao_descer.svg" alt=""/>
-                    </div>
-                    <div class="esquerda">
-                        <img src="img/controle/branco.svg" class="direcional" alt=""/>
-                    </div>
-                </div>
-                <div id="div_central" class="esquerda">
-                    <div class="esquerda">
-                        <img src="img/controle/botao_start.svg" id="btn_start" alt=""/>
-                    </div>
-                    <div  class="direita" style="float: right">
-                        <img id="btn_select" src="img/controle/botao_select.svg" alt=""/>
-                    </div>
-                </div>
-                <div id="div_acao" class="esquerda">
-                    <div class="esquerda">
-                        <img src="img/controle/botao_a.svg" id="btn_acao_a" alt=""/>
-                    </div>
-                    <div id="btn_action_b" class="direita">
-                        <img src="img/controle/botao_b.svg" id="btn_acao_b" alt=""/>
-                    </div>
-                </div>
-            </div>
+            <form>
+                <img id="BUTTON_DOWN" src="img/controle/down.png" class="img-responsive" >
+                <!--<img id="BUTTON_DOWN" src="img/controle/botao_descer.svg" class="img-responsive" >-->
+                <img id="BUTTON_UP" src="img/controle/up.png" class="img-responsive" >
+                <img id="BUTTON_LEFT" src="img/controle/left.png" class="img-responsive" >
+                <img id="BUTTON_RIGHT" src="img/controle/right.png" class="img-responsive" >
+                <img id="BUTTON_A" src="img/controle/ButtonA.png" class="img-responsive" >
+                <img id="BUTTON_B" src="img/controle/ButtonB.png" class="img-responsive" >
+                <div id="BUTTON_START" ><a>START</a></div>
+            </form>
         </div>
+
         <script src="js/Constantes.js"></script>
+        <script src="js/Informacao.js"></script>
         <script src="js/Controle.js"></script>
         <script src="js/Conexao.js"></script>
         <script src="js/Comando.js"></script>
-        <script src="js/Informacao.js"></script>
         <script src="js/AppControle.js"></script>
     </body>
 </html>

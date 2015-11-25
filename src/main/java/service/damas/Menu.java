@@ -1,5 +1,6 @@
 package service.damas;
 
+import service.util.IsJsonObject;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;

@@ -1,8 +1,9 @@
-function Jogador(contexto, imagem, nome, x, y, cor, numero) {
+function Jogador(contexto, imagem, nome, x, y, cor, numero, imagem2) {
     this.contexto = contexto;
     this.x = x;
     this.y = y;
     this.imagem = imagem;
+    this.imagem2 = imagem2;
     this.cor = cor;
     this.nome = nome;
     this.status = STATUS_AGUARDANDO;

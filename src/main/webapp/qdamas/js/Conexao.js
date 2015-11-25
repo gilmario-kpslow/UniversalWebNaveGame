@@ -10,7 +10,7 @@ function Conexao(host, player, cod) {
 Conexao.prototype = {
     conectar: function () {
         var con = this;
-        this.socket = new WebSocket("ws://" + this.host + "/servidor" + "/" + APP_SOCKET + "/" + this.nomePlayer + "/" + this.codImgPlayer);
+        this.socket = new WebSocket("ws://" + this.host + "/" + this.nomePlayer + "/" + this.codImgPlayer);
         //this.socket = new WebSocket("ws://" + "localhost:8080/servidor" + "/" + APP_SOCKET + "/" + this.nomePlayer + "/" + this.codImgPlayer);
         this.socket.onmessage = (function (evt) {
             if (con.onMessage) {

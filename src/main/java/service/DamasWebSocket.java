@@ -14,8 +14,8 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
-import service.damas.Comando;
-import service.damas.Informacao;
+import service.util.Comando;
+import service.util.Informacao;
 import service.damas.Jogador;
 import service.damas.QdamasGame;
 import service.damas.Resposta;
@@ -47,7 +47,7 @@ public class DamasWebSocket {
     }
 
     @OnOpen
-    public void onOpen(Session session, EndpointConfig config, @PathParam("usuario") String nome, @PathParam("imagem") Integer imagem) {
+    public void onOpen(Session session, EndpointConfig config, @PathParam("usuario") String nome, @PathParam("imagem") String imagem) {
 
         if (nome.equals("espectador")) {
             expectadores.put(session, new Jogador(imagem, nome, expectadores.size() + 1));

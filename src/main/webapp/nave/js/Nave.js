@@ -1,45 +1,22 @@
-function Nave(contexto, controle, imagem, imgExplosao, somTiro) {
+function Nave(contexto, imagem) {
     this.contexto = contexto;
     this.imagem = imagem;
-    this.controle = controle;
     this.x = 0;
     this.y = 0;
     this.velocidade = 0;
     this.vidas = 3;
-    this.acabaramVidas = null;
-    this.imgExplosao = imgExplosao;
-    this.spritesheet = new Spritsheet(contexto, imagem, 3, 2);
+    this.spritesheet = new Spritsheet(contexto, imagem, 3, 4);
     this.spritesheet.linha = 0;
     this.spritesheet.intervalo = 100;
-    this.somTiro = somTiro;
 }
 
 Nave.prototype = {
     desenhar: function () {
-        if (this.controle.pressionada(COMANDO_ESQUERDA)) {
-            this.spritesheet.linha = 1;
-        } else if (this.controle.pressionada(COMANDO_DIREITA)) {
-            this.spritesheet.linha = 2;
-        } else {
-            this.spritesheet.linha = 0;
-        }
         this.spritesheet.desenhar(this.x, this.y);
         this.spritesheet.proximoQuadro();
     },
     atualizar: function () {
-        var incremento = this.velocidade * this.animacao.decorrido / 1000;
-        if (this.controle.pressionada(COMANDO_ESQUERDA) && this.x > 0) {
-            this.x -= incremento;
-        }
-        if (this.controle.pressionada(COMANDO_DIREITA) && this.x < this.contexto.canvas.width - 36) {
-            this.x += incremento;
-        }
-        if (this.controle.pressionada(COMANDO_SUBIR) && this.y > 0) {
-            this.y -= incremento;
-        }
-        if (this.controle.pressionada(COMANDO_DECER) && this.y < this.contexto.canvas.height - 48) {
-            this.y += incremento;
-        }
+
     },
     atirar: function () {
         var t = new Tiro(this.contexto, this, this.somTiro);

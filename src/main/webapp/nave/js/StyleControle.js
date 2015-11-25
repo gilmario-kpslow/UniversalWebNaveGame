@@ -37,47 +37,6 @@ function localizarImagens() {
     div_superior = document.getElementById("div_superior");
 }
 
-function posicionarInmagens() {
-    div_superior.style.height = tela.height * 0.12 + "px";
-    div_superior.style.padding = "2px";
-    btn_l.width = tela.width * 0.2;
-    btn_r.width = tela.width * 0.2;
-
-    btn_acao_a.width = tela.width * 0.33 * 0.40;
-    btn_acao_b.width = tela.width * 0.33 * 0.40;
-    btn_acao_b.style.paddingTop = tela.height * 0.30 + "px";
-    btn_acao_a.style.paddingTop = tela.height * 0.30 + "px";
-
-    div_direcional.style.width = tela.width * 0.35 + "px";
-    div_central.style.width = tela.width * 0.29 + "px";
-    div_acao.style.width = tela.width * 0.35 + "px";
-
-    btn_start.width = tela.width * 0.33 * 0.40;
-    btn_select.width = tela.width * 0.33 * 0.40;
-    btn_start.style.paddingTop = tela.height * 0.40 + "px";
-    btn_select.style.paddingTop = tela.height * 0.40 + "px";
-
-    for (var i in btn_direcional) {
-        btn_direcional[i].width = tela.width * 0.33 * 0.33;
-    }
-
-}
-
-function adicionarComandos() {
-    btnlogar.addEventListener("click", function () {
-        conectar();
-    });
-    adicionaAcoes(btn_direcao_subir, COMANDO_SUBIR);
-    adicionaAcoes(btn_direcao_descer, COMANDO_DECER);
-    adicionaAcoes(btn_direcao_esquerda, COMANDO_ESQUERDA);
-    adicionaAcoes(btn_direcao_direita, COMANDO_DIREITA);
-    adicionaAcoes(btn_acao_a, ACAO_01, true);
-    adicionaAcoes(btn_acao_b, ACAO_02, true);
-    adicionaAcoes(btn_l, BOTAO_L, true);
-    adicionaAcoes(btn_r, BOTAO_R, true);
-    adicionaAcoes(btn_select, SELECT, true);
-    adicionaAcoes(btn_start, START, true);
-}
 
 function adicionaAcoes(botao, COMANDO, disparada) {
     var comando = new Comando(COMANDO, disparada);

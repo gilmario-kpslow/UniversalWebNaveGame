@@ -1,5 +1,6 @@
 package service.damas;
 
+import service.util.IsJsonObject;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
@@ -93,6 +94,29 @@ public class Posicao implements IsJsonObject {
     @Override
     public void restoreFromJson(JsonObject object) {
 
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 79 * hash + this.x;
+        hash = 79 * hash + this.y;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Posicao other = (Posicao) obj;
+        if (this.x != other.x) {
+            return false;
+        }
+        return this.y == other.y;
     }
 
 }

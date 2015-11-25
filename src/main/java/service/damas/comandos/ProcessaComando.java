@@ -1,8 +1,8 @@
 package service.damas.comandos;
 
-import service.damas.Comando;
-import service.damas.Informacao;
-import service.damas.QdamasGame;
+import service.util.Comando;
+import service.util.Informacao;
+import service.util.Game;
 
 /**
  *
@@ -10,5 +10,5 @@ import service.damas.QdamasGame;
  */
 public interface ProcessaComando {
 
-    public Informacao processarComando(QdamasGame game, Comando comando);
+    public Informacao processarComando(Game game, Comando comando);
 }

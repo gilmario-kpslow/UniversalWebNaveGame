@@ -1,5 +1,6 @@
 package service.damas;
 
+import service.util.IsJsonObject;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
@@ -26,6 +27,10 @@ public class Peca implements IsJsonObject {
 
     public boolean isDama() {
         return dama;
+    }
+
+    public void setDama() {
+        dama = true;
     }
 
     @Override

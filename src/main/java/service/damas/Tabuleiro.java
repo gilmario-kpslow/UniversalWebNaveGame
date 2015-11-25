@@ -1,5 +1,7 @@
 package service.damas;
 
+import service.util.Listener;
+import service.util.IsJsonObject;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
@@ -87,6 +89,9 @@ public class Tabuleiro implements IsJsonObject {
             macada01.setPeca(null);
             verificaCaminho(this.macada01, posicaoAtual, game.getPainel().getRemove01Listener());
             desmarcarTodos();
+            if (posicoes[0].equals(posicaoAtual) || posicoes[1].equals(posicaoAtual) || posicoes[2].equals(posicaoAtual) || posicoes[3].equals(posicaoAtual)) {
+                posicaoAtual.getPeca().setDama();
+            }
             game.jogou();
         } else {
             desmarcarTodos();
@@ -99,18 +104,18 @@ public class Tabuleiro implements IsJsonObject {
 
     void marcaSelecao02() {
         Posicao posicaoAtual = posicoes[selecionada02];
-        if (macada02 != null && macada02.getPeca() != null && posicaoAtual.isMarcado() && posicaoAtual.getPeca() == null) {
+        if (macada02 != null && macada02.getPeca() != null && macada02.getPeca().getJogador().equals(game.getJogador02()) && posicaoAtual.isMarcado() && posicaoAtual.getPeca() == null) {
             posicaoAtual.setPeca(macada02.getPeca());
             macada02.setPeca(null);
-            // Verificar se possue uma peça no caminho
             verificaCaminho(this.macada02, posicaoAtual, game.getPainel().getRemove02Listener());
-            //
             desmarcarTodos();
+            if (posicoes[31].equals(posicaoAtual) || posicoes[30].equals(posicaoAtual) || posicoes[29].equals(posicaoAtual) || posicoes[28].equals(posicaoAtual)) {
+                posicaoAtual.getPeca().setDama();
+            }
             game.jogou();
 
         } else {
             desmarcarTodos();
-            posicoes[selecionada02].setMarcado(true);
             Posicao p = posicoes[selecionada02];
             if (p.getPeca() != null) {
                 marcarProximos02(p);
@@ -210,34 +215,19 @@ public class Tabuleiro implements IsJsonObject {
         this.macada01 = p;
         int x1 = p.getX() + tamanho;
         int x2 = p.getX() - tamanho;
-        int y = p.getY() - tamanho;
+        int y1 = p.getY() - tamanho;
+        int y2 = p.getY() + tamanho;
         for (Posicao pp : posicoes) {
-            if (pp.getX() == x1 && pp.getY() == y) {
+            if ((pp.getX() == x1 || pp.getX() == x2) && pp.getY() == y1) {
                 pp.setMarcado(true);
-                possuePecaInimigo(p, pp, game.getJogador02());
             }
-            if (pp.getX() == x2 && pp.getY() == y) {
-                pp.setMarcado(true);
-                possuePecaInimigo(p, pp, game.getJogador02());
-            }
-        }
-
-    }
-
-    private void possuePecaInimigo(Posicao pbase, Posicao p, Jogador inimigo) {
-        if (p.getPeca() != null && p.getPeca().getJogador().equals(inimigo)) {
-            int x1 = pbase.getX() + (2 * tamanho);
-            int x2 = pbase.getX() - (2 * tamanho);
-            int y = pbase.getY() - (2 * tamanho);
-            for (Posicao pp : posicoes) {
-                if (pp.getX() == x1 && pp.getY() == y && pp.getPeca() == null) {
-                    pp.setMarcado(true);
-                }
-                if (pp.getX() == x2 && pp.getY() == y && pp.getPeca() == null) {
-                    pp.setMarcado(true);
+            if ((pp.getX() == x1 || pp.getX() == x2) && (pp.getY() == y1 || pp.getY() == y2)) {
+                if (pp.getPeca() != null && p.getPeca().getJogador().equals(game.getJogador01())) {
+                    possuePecaInimigo01(p, pp, game.getJogador02());
                 }
             }
         }
+
     }
 
     private void marcarProximos02(Posicao p) {
@@ -245,37 +235,67 @@ public class Tabuleiro implements IsJsonObject {
         this.macada02 = p;
         int x1 = p.getX() + tamanho;
         int x2 = p.getX() - tamanho;
-        int y = p.getY() + tamanho;
+        int y1 = p.getY() + tamanho;
+        int y2 = p.getY() - tamanho;
         for (Posicao pp : posicoes) {
-            if (pp.getX() == x1 && pp.getY() == y) {
+            if ((pp.getX() == x1 || pp.getX() == x2) && pp.getY() == y1) {
                 pp.setMarcado(true);
-                possuePecaInimigo(p, pp, game.getJogador01());
             }
-            if (pp.getX() == x2 && pp.getY() == y) {
-                pp.setMarcado(true);
-                possuePecaInimigo(p, pp, game.getJogador01());
+            if ((pp.getX() == x1 || pp.getX() == x2) && (pp.getY() == y1 || pp.getY() == y2)) {
+                if (pp.getPeca() != null && p.getPeca().getJogador().equals(game.getJogador02())) {
+                    possuePecaInimigo02(p, pp, game.getJogador01());
+                }
+            }
+        }
+    }
+
+    private void possuePecaInimigo01(Posicao pbase, Posicao p, Jogador inimigo) {
+        if (p.getPeca() != null && p.getPeca().getJogador().equals(inimigo)) {
+            int x1 = p.getX() + tamanho;
+            int x2 = p.getX() - tamanho;
+            int y1 = p.getY() - tamanho;
+            int y2 = p.getY() + tamanho;
+            for (Posicao pp : posicoes) {
+                if ((pp.getX() == x1 || pp.getX() == x2) && (pp.getY() == y1 || pp.getY() == y2) && pp.getPeca() == null) {
+                    int xba = pbase.getX() + (2 * tamanho);
+                    int xbb = pbase.getX() - (2 * tamanho);
+                    int yba = pbase.getY() - (2 * tamanho);
+                    int ybb = pbase.getY() + (2 * tamanho);
+                    if ((pp.getX() == xba || pp.getX() == xbb) && (pp.getY() == yba || pp.getY() == ybb) && pp.getPeca() == null) {
+                        pp.setMarcado(true);
+                    }
+                }
+            }
+        }
+    }
+
+    private void possuePecaInimigo02(Posicao pbase, Posicao p, Jogador inimigo) {
+        if (p.getPeca() != null && p.getPeca().getJogador().equals(inimigo)) {
+            int x1 = p.getX() + tamanho;
+            int x2 = p.getX() - tamanho;
+            int y1 = p.getY() - tamanho;
+            int y2 = p.getY() + tamanho;
+            for (Posicao pp : posicoes) {
+                if ((pp.getX() == x1 || pp.getX() == x2) && (pp.getY() == y1 || pp.getY() == y2) && pp.getPeca() == null) {
+                    int xba = pbase.getX() + (2 * tamanho);
+                    int xbb = pbase.getX() - (2 * tamanho);
+                    int yba = pbase.getY() - (2 * tamanho);
+                    int ybb = pbase.getY() + (2 * tamanho);
+                    if ((pp.getX() == xba || pp.getX() == xbb) && (pp.getY() == yba || pp.getY() == ybb) && pp.getPeca() == null) {
+                        pp.setMarcado(true);
+                    }
+                }
             }
         }
     }
 
     private void verificaCaminho(Posicao anterior, Posicao atual, Listener listener) {
+        int x = (anterior.getX() + atual.getX()) / 2;
+        int y = (anterior.getY() + atual.getY()) / 2;
+
         for (Posicao p : posicoes) {
             if (p.getPeca() != null) {
-                int corretas = 0;
-                if (p.getX() == atual.getX() + tamanho) {
-                    corretas++;
-                }
-                if (p.getY() == atual.getY() + tamanho) {
-                    corretas++;
-                }
-                if (p.getX() == anterior.getX() - tamanho) {
-                    corretas++;
-                }
-
-                if (p.getY() == anterior.getY() - tamanho) {
-                    corretas++;
-                }
-                if (corretas == 4) {
+                if (y == p.getY() && x == p.getX()) {
                     p.setPeca(null);
                     listener.executa();
                 }

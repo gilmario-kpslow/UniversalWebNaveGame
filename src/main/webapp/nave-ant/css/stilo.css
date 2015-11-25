@@ -1,0 +1,35 @@
+/*
+    Created on : 09/02/2014, 20:49:57
+    Author     : gilmario
+*/
+canvas {
+
+}
+
+*{
+    color: red;
+    margin: 0px;
+    padding: 0px;
+}
+
+canvas{
+    margin: 0 auto;
+}
+
+#link_jogar{
+
+    display: none;
+    color: yellow;
+    background: url('../img/botao-jogar.png');
+    font-size: 20px;
+    font-family: sans-serif;
+    text-decoration: none;
+
+    text-shadow: 2px 2px 5px black;
+    position: absolute;
+    left: 220px;
+    top:        330px;
+    width: 52px;
+    padding: 23px 10px;
+
+}
