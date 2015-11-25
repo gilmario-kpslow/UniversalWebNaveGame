@@ -3,7 +3,6 @@ package service.damas;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
-import service.damas.comandos.Cores;
 import service.util.JogadorInterface;
 
 /**
@@ -22,8 +21,12 @@ public class Jogador implements JogadorInterface {
     public Jogador(Integer numero) {
         this.x = 0;
         this.y = 0;
-        this.cor = "#000000";
         this.numero = numero;
+    }
+
+    public Jogador(Integer numero, String nome) {
+        this.numero = numero;
+        this.nome = nome;
     }
 
     public Jogador(String imagem, String nome, Integer numero) {
@@ -42,7 +45,6 @@ public class Jogador implements JogadorInterface {
 
     public void setImagem(String imagem) {
         this.imagem = imagem;
-        this.cor = Cores.cores[Integer.parseInt(imagem)];
     }
 
     @Override

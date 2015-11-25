@@ -13,7 +13,7 @@ public class ProcessaComandoA implements ProcessaComando {
     @Override
     public Informacao processarComando(Game game, Comando comando) {
         game.acaoBotaoA(game.getJogador(comando.getJogador()));
-        Informacao info = new Informacao(Informacao.COMANDO, game.getJsonObject());
+        Informacao info = new Informacao(Informacao.MOVE, game.getJsonObject());
         return info;
     }
 

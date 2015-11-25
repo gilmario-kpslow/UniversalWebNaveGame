@@ -18,6 +18,7 @@ public final class QdamasGame extends Game {
     private boolean turno;
     private final Menu menu;
     private final Painel painel;
+    private boolean iniciado;
 
     public QdamasGame() {
         menu = new Menu("Aguardando Jogadores.");
@@ -38,31 +39,29 @@ public final class QdamasGame extends Game {
         return painel;
     }
 
-    public void setJogador(String nome, String imagem) {
+    public void setJogador(Jogador jogador) {
         if (jogador01 == null) {
-            jogador01 = new Jogador(1);
-            jogador01.setNome(nome);
-            jogador01.setImagem(imagem);
+            jogador01 = jogador;
             jogador01.setX(100);
             jogador01.setY(5);
+            jogador01.setCor("#FF0000");
             menu.setMensagem("Aguardando Jogador 02.");
             tabuleiro.seleciona();
         } else if (jogador02 == null) {
-            jogador02 = new Jogador(2);
-            jogador02.setNome(nome);
-            jogador02.setImagem(imagem);
+            jogador02 = jogador;
             jogador02.setX(200);
             jogador02.setY(5);
+            jogador02.setCor("#FF00FF");
             menu.setMensagem("Aperte start para começar.");
             tabuleiro.seleciona();
         }
     }
 
     public void remJogador(Jogador jogador) {
-        if (jogador.equals(jogador01)) {
+        if (jogador01.equals(jogador)) {
             jogador01 = null;
             menu.setMensagem("Jogador desconectado");
-        } else if (jogador.equals(jogador02)) {
+        } else if (jogador02.equals(jogador)) {
             jogador02 = null;
             menu.setMensagem("Jogador desconectado");
         }

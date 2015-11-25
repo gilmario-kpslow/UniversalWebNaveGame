@@ -1,8 +1,10 @@
 package service.util;
 
 import javax.json.Json;
+import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import javax.json.JsonStructure;
 
 /**
  *
@@ -17,9 +19,10 @@ public class Informacao implements IsJsonObject {
     public static final String COMANDO = "comando";
     public static final String MOVE = "move";
     public static final String RESTAURAR = "restaurar";
+    public static final String CORES = "cores";
 
     private String tipo;
-    private JsonObject valor;
+    private JsonStructure valor;
 
     public String getTipo() {
         return tipo;
@@ -37,8 +40,17 @@ public class Informacao implements IsJsonObject {
         this.valor = valor;
     }
 
+    public Informacao(String tipo, JsonArray valor) {
+        this.tipo = tipo;
+        this.valor = valor;
+    }
+
     public String toJson() {
         return getJsonObject().toString();
+    }
+
+    public JsonStructure getValor() {
+        return valor;
     }
 
     @Override

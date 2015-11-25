@@ -1,7 +1,10 @@
 package service;
 
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -19,6 +22,8 @@ import service.util.Informacao;
 import service.damas.Jogador;
 import service.damas.QdamasGame;
 import service.damas.Resposta;
+import service.damas.comandos.Cores;
+import service.util.JsonSimpleTransforme;
 
 /**
  *
@@ -39,6 +44,12 @@ public class DamasWebSocket {
             Comando c = new Comando(info.getJsonObject().getJsonObject("valor"));
             enviaMensagens(c.getComando().geraResposta(game, c), expectadores);
         }
+        if (info.getTipo().equals(Informacao.CORES)) {
+            Jogador jog = jogadores.get(session);
+            jog.setImagem(((JsonObject) info.getValor()).getString("cor"));
+            game.setJogador(jog);
+            enviaMensagens(new Informacao(Informacao.USUARIO, game.getJsonObject()).toJson(), expectadores);
+        }
     }
 
     private JsonObject gerarInformacao(String json) {
@@ -53,9 +64,21 @@ public class DamasWebSocket {
             expectadores.put(session, new Jogador(imagem, nome, expectadores.size() + 1));
             inicializaExpectador(session);
         } else {
-            game.setJogador(nome, imagem);
-            jogadores.put(session, game.getJogador(nome));
-            enviaMensagens(new Informacao(Informacao.USUARIO, game.getJsonObject()).toJson(), expectadores);
+            Jogador j = new Jogador(jogadores.size());
+            j.setNome(nome);
+            jogadores.put(session, j);
+            List<String> coresDisp = new ArrayList<>();
+            for (String c : new Cores().cores) {
+                coresDisp.add(c);
+            }
+            for (Map.Entry<Session, Jogador> entry : jogadores.entrySet()) {
+                Session ss = entry.getKey();
+                Jogador jog = entry.getValue();
+                coresDisp.remove(jog.getImagem());
+            }
+            Informacao info = new Informacao(Informacao.CORES, JsonSimpleTransforme.arrayParaJson(coresDisp));
+            enviaTexto(session, info.toJson());
+
         }
     }
 
@@ -64,9 +87,9 @@ public class DamasWebSocket {
         expectadores.remove(session);
         Jogador j = jogadores.remove(session);
         game.remJogador(j);
-        enviaMensagens(new Informacao(Informacao.USUARIO, game.getJsonObject()).toJson(), expectadores);
         if (j != null) {
-            enviaMensagens(new Informacao(Informacao.REM_USUARIO, new Resposta(j.getNome()).getJsonObject()).toJson(), expectadores);
+            enviaMensagens(new Informacao(Informacao.USUARIO, game.getJsonObject()).toJson(), expectadores);
+//            enviaMensagens(new Informacao(Informacao.REM_USUARIO, new Resposta(j.getNome()).getJsonObject()).toJson(), expectadores);
         }
     }
 

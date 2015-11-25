@@ -26,6 +26,7 @@ var MENSAGEM = "mensagem";
 var INICIAR = "iniciar";
 var CONTROLE = "controle";
 var MOVE = "move";
+var CORES = "cores";
 /**
  * Constantes Jogador
  */

@@ -25,11 +25,13 @@ Painel.prototype = {
         this.contexto.strokeStyle = "#00F";
         this.contexto.fillStyle = "#000";
         //this.contexto.strokeRect(80, 60, 200, 20);
-        this.contexto.fillRect(80, 60, 200, 20);
-        this.contexto.strokeStyle = "#000";
-        this.contexto.font = "10px sans-serif";
-        this.contexto.fillText("PJ1 " + this.pontuacao01, 300, 70);
-        this.contexto.fillText("PJ2 " + this.pontuacao02, 400, 70);
+        this.contexto.fillRect(400, 30, 50, 50);
+        this.contexto.fillRect(470, 30, 50, 50);
+        this.contexto.strokeStyle = "#F00";
+        this.contexto.font = "30px sans-serif";
+        this.contexto.fillStyle = "#FFF";
+        this.contexto.fillText(" " + this.pontuacao01, 410, 65);
+        this.contexto.fillText(" " + this.pontuacao02, 480, 65);
         this.contexto.restore();
     }
 };

@@ -5,6 +5,7 @@
 body{
     margin: 0px;
     padding: 0px;
+    background: black;
 }
 
 #login{
@@ -44,12 +45,12 @@ body{
     left: 30%;
 }
 #BUTTON_A{
-    bottom: 10%;
-    right: 25%;
+    bottom: 5%;
+    right: 20%;
 }
 #BUTTON_B{
-    bottom: 20%;
-    right: 10%;
+    bottom: 30%;
+    right: 5%;
 }
 #BUTTON_START{
     position: absolute;

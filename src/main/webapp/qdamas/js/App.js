@@ -12,6 +12,7 @@ function App() {
     this.painel;
     this.jogador01;
     this.jogador02;
+    this.cores = new Array("#FFF", "#000", "#0F0", "#00F");
     this.imagens = new Array("peca_branca.svg", "peca_preta.svg", "peca_verde.svg", "peca_azul.svg"
             , "dama_branca.svg", "dama_preta.svg", "dama_verde.svg", "dama_azul.svg");
     this.audio = {
@@ -111,22 +112,28 @@ App.prototype = {
         this.tabuleiro.posicionarPecas(j);
     },
     pegarJogador: function (nome) {
-        if (this.jogador01.nome == nome) {
+        if (this.jogador01 != null && this.jogador01.nome == nome) {
             return this.jogador01;
-        } else if (this.jogador02.nome == nome) {
+        } else if (this.jogador02 != null && this.jogador02.nome == nome) {
             return this.jogador02;
         } else {
             return null;
         }
     }, restauraJogador01: function (jogador01) {
         if (jogador01 != null) {
-            this.jogador01 = new Jogador(this.contexto, this.imagens[jogador01.imagem], jogador01.nome, jogador01.x, jogador01.y, this.imagens[jogador01.imagem + 4]);
+            var cor = this.cores.indexOf(jogador01.imagem);
+            var img = this.imagens[cor];
+            var imgDama = this.imagens[cor + 4];
+            this.jogador01 = new Jogador(this.contexto, img, jogador01.nome, jogador01.x, jogador01.y, imgDama);
         } else {
             this.jogador01 = null;
         }
     }, restauraJogador02: function (jogador02) {
         if (jogador02 != null) {
-            this.jogador02 = new Jogador(this.contexto, this.imagens[jogador02.imagem], jogador02.nome, jogador02.x, jogador02.y, this.imagens[jogador02.imagem + 4]);
+            var cor = this.cores.indexOf(jogador02.imagem);
+            var img = this.imagens[cor];
+            var imgDama = this.imagens[cor + 4];
+            this.jogador02 = new Jogador(this.contexto, img, jogador02.nome, jogador02.x, jogador02.y, imgDama);
         } else {
             this.jogador02 = null;
         }
