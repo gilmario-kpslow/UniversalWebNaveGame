@@ -37,19 +37,17 @@ public class Animacao implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
-            if (ligado) {
-                for (Animado a : animacoes) {
-                    a.atualizar();
-                }
-                for (Listener l : processamentos) {
-                    l.executa();
-                }
-                processarExclusoes();
-            } else {
-                return;
+//        while (true) {
+        if (ligado) {
+            for (Animado a : animacoes) {
+                a.atualizar();
             }
+            for (Listener l : processamentos) {
+                l.executa();
+            }
+            processarExclusoes();
         }
+//        }
     }
 
     public void ligar() {

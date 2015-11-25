@@ -83,7 +83,7 @@ public class NaveGame extends Game {
                 j.getNave().setY(y);
                 x += 50;
             }
-            loop.scheduleWithFixedDelay(animacao, 0, 1000, TimeUnit.MILLISECONDS);
+            loop.scheduleWithFixedDelay(animacao, 0, 50, TimeUnit.MILLISECONDS);
             iniciado = true;
         } else {
             if (animacao.isLigado()) {
